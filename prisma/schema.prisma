@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Token {
+  id        String   @id @default(uuid())
+  clientId  String
+  token     String   @unique
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+}
+
+model Audit {
+  id        String   @id @default(uuid())
+  tokenId   String
+  score     Int
+  grade     String
+  result    String
+  createdAt DateTime @default(now())
+}
