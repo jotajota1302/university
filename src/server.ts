@@ -2,6 +2,8 @@ import Fastify from 'fastify';
 import { healthRoute } from './routes/health';
 import { authRoute } from './routes/auth';
 import { auditRoute } from './routes/audit';
+import { gdprRoute } from './routes/gdpr';
+import { certificationsRoute } from './routes/certifications';
 
 export function buildApp() {
   const app = Fastify({
@@ -11,6 +13,8 @@ export function buildApp() {
   app.register(healthRoute, { prefix: '/v1' });
   app.register(authRoute, { prefix: '/v1' });
   app.register(auditRoute, { prefix: '/v1' });
+  app.register(gdprRoute, { prefix: '/v1' });
+  app.register(certificationsRoute, { prefix: '/v1' });
 
   return app;
 }

@@ -31,3 +31,18 @@ model Audit {
 
   @@schema("university")
 }
+
+model Certificate {
+  id         String    @id @default(uuid())
+  auditId    String    @unique
+  tokenId    String
+  type       String
+  grade      String
+  score      Int
+  issuedAt   DateTime  @default(now())
+  validUntil DateTime
+  revoked    Boolean   @default(false)
+  revokedAt  DateTime?
+
+  @@schema("university")
+}
