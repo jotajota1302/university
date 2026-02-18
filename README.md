@@ -3,56 +3,78 @@
 > Motor de auditoría y certificación de agentes OpenClaw. API-first: los clientes instalan un conector ligero; toda la inteligencia vive en este servidor.
 
 **Repo:** https://github.com/jotajota1302/university  
-**Estado:** ✅ Sprint 1 completo y operativo  
+**Producción:** https://openclaw-university-api.onrender.com  
+**Estado:** ✅ Sprint 2 completo y operativo  
 **DB:** Supabase PostgreSQL (schema `university`)  
-**Stack:** Node.js 20 · TypeScript · Fastify · Prisma
+**Stack:** Node.js · TypeScript · Fastify · Prisma · Render
 
 ---
 
-## ✅ Qué está implementado (Sprint 1)
-
-### Endpoints
+## 🔌 Endpoints disponibles
 
 | Método | Ruta | Auth | Descripción |
 |--------|------|------|-------------|
 | GET | `/v1/health` | No | Health check del servidor |
 | POST | `/v1/auth/token` | No | Genera token de acceso (válido 30 días) |
-| POST | `/v1/audit/security` | Bearer token | Auditoría de seguridad de un agente |
+| POST | `/v1/audit/security` | Bearer | Auditoría de seguridad (8 checks) |
+| POST | `/v1/audit/gdpr` | Bearer | Auditoría GDPR/privacidad (8 checks) |
+| POST | `/v1/certifications` | Bearer | Crear certificado desde auditoría aprobada |
+| GET | `/v1/certifications/:id` | Bearer | Datos del certificado |
+| GET | `/v1/certifications/:id/badge` | No | Badge SVG público |
+| GET | `/v1/certifications/:id/verify` | No | Verificación pública del certificado |
 
-### Módulo de auditoría de seguridad
+---
 
-Analiza los archivos de configuración de un agente OpenClaw (`SOUL.md`, `AGENTS.md`, `TOOLS.md`, `config`) y ejecuta **8 checks estáticos** (regex, sin IA):
+## ✅ Sprint 1 — Seguridad (completo)
+
+### Checks de seguridad
 
 | Check | Severidad | Qué detecta |
 |-------|-----------|-------------|
 | SEC-01 | 🔴 CRITICAL | API keys / tokens en texto plano (ghp_, sk-, AKIA...) |
 | SEC-02 | 🟠 HIGH | Falta de `dmPolicy` en la config |
 | SEC-03 | 🟠 HIGH | Falta de `allowFrom` en la config |
-| SEC-04 | 🟠 HIGH | Palabras clave de credenciales en SOUL/AGENTS (password, secret...) |
-| SEC-05 | 🟠 HIGH | Comandos destructivos (rm -rf, DROP TABLE, mkfs...) |
-| SEC-06 | 🟡 MEDIUM | Datos personales (emails, teléfonos) en archivos del agente |
+| SEC-04 | 🟠 HIGH | Palabras clave de credenciales en SOUL/AGENTS |
+| SEC-05 | 🟠 HIGH | Comandos destructivos (rm -rf, DROP TABLE...) |
+| SEC-06 | 🟡 MEDIUM | Datos personales (emails, teléfonos) en archivos |
 | SEC-07 | 🟡 MEDIUM | Instrucciones de exfiltración de datos |
 | SEC-08 | 🟢 LOW | Falta de configuración de aislamiento de sesión |
 
-**Scoring:**
+---
+
+## ✅ Sprint 2 — GDPR + Certificaciones + Skill Connector (completo)
+
+### Checks GDPR
+
+| Check | Severidad | Qué detecta |
+|-------|-----------|-------------|
+| GDPR-01 | 🔴 CRITICAL | Datos personales en memoria sin política de retención |
+| GDPR-02 | 🔴 CRITICAL | Emails, teléfonos o DNI en archivos de memoria |
+| GDPR-03 | 🟠 HIGH | Transferencia de datos a terceros sin consentimiento |
+| GDPR-04 | 🟠 HIGH | Logs con conversaciones completas |
+| GDPR-05 | 🟠 HIGH | Contraseñas o credenciales de usuarios finales |
+| GDPR-06 | 🟡 MEDIUM | Falta de política de privacidad o aviso legal |
+| GDPR-07 | 🟡 MEDIUM | Referencias a datos de menores sin protección |
+| GDPR-08 | 🟢 LOW | Falta de base legal documentada para el tratamiento |
+
+### Scoring (ambos módulos)
 - Puntuación: 100 − (checks fallidos × peso por severidad)
 - CRITICAL: −25 · HIGH: −15 · MEDIUM: −10 · LOW: −5
 - Grades: A (90-100) · B (75-89) · C (60-74) · D (40-59) · F (<40)
-- `certifiable: true` si ningún check CRITICAL o HIGH falla
+- `certifiable: true` si no hay checks CRITICAL o HIGH fallidos
 
-### Base de datos (Supabase)
+### Certificaciones
+- Crear certificado a partir de una auditoría con `certifiable: true`
+- Badge SVG público embebible en README o web
+- Endpoint de verificación pública (sin auth) para que cualquiera pueda validar un badge
+- Validez: 6 meses desde la emisión
 
-Tablas en el schema `university`:
-- **Token** — tokens de acceso (clientId, token UUID, active, expiresAt)
-- **Audit** — registro de cada auditoría (tokenId, score, grade, resultado JSON)
-
-### Tests
-
-36 tests pasando con Vitest:
-- `health.test.ts` — endpoint health
-- `auth.test.ts` — generación de tokens y validación de entrada
-- `audit.test.ts` — autenticación, token inválido, auditoría end-to-end
-- `securityAudit.test.ts` — 26 tests unitarios de los 8 checks (archivos limpios y con problemas)
+### Skill Connector
+Conector instalable en cualquier OpenClaw en `skills/university-connector/`:
+- `audit.sh` — audita seguridad y muestra el informe
+- `audit-gdpr.sh` — audita GDPR
+- `SKILL.md` — instrucciones para el agente
+- Requiere `UNIVERSITY_TOKEN` y `UNIVERSITY_API_URL` en el entorno
 
 ---
 
@@ -62,10 +84,11 @@ Tablas en el schema `university`:
 # 1. Instalar dependencias
 npm install
 
-# 2. Configurar entorno (ya está en .env con Supabase)
-cp .env.example .env  # si no existe .env
+# 2. Configurar entorno
+cp .env.example .env
+# Añadir DATABASE_URL de Supabase
 
-# 3. Sincronizar schema con Supabase
+# 3. Sincronizar schema
 npx prisma generate
 npx prisma db push
 
@@ -80,109 +103,101 @@ npm run dev
 
 ### Health check
 ```bash
-curl http://localhost:3000/v1/health
+curl https://openclaw-university-api.onrender.com/v1/health
 # {"status":"ok","version":"1.0.0","service":"openclaw-university"}
 ```
 
 ### Obtener token
 ```bash
-curl -X POST http://localhost:3000/v1/auth/token \
+curl -X POST https://openclaw-university-api.onrender.com/v1/auth/token \
   -H "Content-Type: application/json" \
   -d '{"clientId":"mi-cliente","secret":"mi-secreto"}'
-# {"token":"uuid...","expiresAt":"2026-03-20T..."}
+# {"token":"uuid...","expiresAt":"2026-08-18T..."}
 ```
 
 ### Auditoría de seguridad
 ```bash
-curl -X POST http://localhost:3000/v1/audit/security \
+curl -X POST https://openclaw-university-api.onrender.com/v1/audit/security \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <token>" \
   -d '{
     "files": {
-      "SOUL.md": "Eres un asistente seguro y útil.",
-      "AGENTS.md": "No compartas datos de usuarios.",
-      "config": "{\"dmPolicy\":\"allowlist\",\"allowFrom\":[\"34619021128\"],\"sessionId\":\"jarvis-main\"}"
+      "SOUL.md": "Eres un asistente...",
+      "AGENTS.md": "# AGENTS...",
+      "TOOLS.md": "# TOOLS...",
+      "config": "{\"dmPolicy\":\"allowlist\"}"
     }
   }'
 ```
 
-Respuesta:
-```json
-{
-  "auditId": "uuid",
-  "timestamp": "ISO",
-  "score": 85,
-  "grade": "B",
-  "certifiable": true,
-  "checks": [...],
-  "recommendations": [...],
-  "certificationBlockers": []
-}
+### Auditoría GDPR
+```bash
+curl -X POST https://openclaw-university-api.onrender.com/v1/audit/gdpr \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "files": {
+      "SOUL.md": "...",
+      "memory": "Contenido de archivos de memoria..."
+    }
+  }'
+```
+
+### Crear certificado
+```bash
+curl -X POST https://openclaw-university-api.onrender.com/v1/certifications \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{"auditId":"uuid-de-auditoria-certificable","type":"SECURITY"}'
+```
+
+### Verificar badge (sin auth)
+```bash
+curl https://openclaw-university-api.onrender.com/v1/certifications/<id>/verify
 ```
 
 ---
 
-## 📁 Estructura del proyecto
+## 🗄️ Base de datos (Supabase)
 
-```
-src/
-├── server.ts               # App Fastify + registro de rutas
-├── routes/
-│   ├── health.ts           # GET /v1/health
-│   ├── auth.ts             # POST /v1/auth/token
-│   └── audit.ts            # POST /v1/audit/security
-├── services/
-│   └── securityAudit.ts    # Lógica de los 8 checks
-└── middleware/
-    └── auth.ts             # Verificación Bearer token
-
-prisma/
-└── schema.prisma           # Modelos Token + Audit (PostgreSQL/Supabase)
-
-tests/
-├── health.test.ts
-├── auth.test.ts
-├── audit.test.ts
-└── securityAudit.test.ts   # 26 tests unitarios de checks
-```
+Tablas en el schema `university`:
+- **Token** — tokens de acceso (clientId, token UUID, active, expiresAt)
+- **Audit** — registro de auditorías (tokenId, score, grade, módulo, resultado JSON)
+- **Certificate** — certificados emitidos (auditId, grade, validUntil, revoked)
 
 ---
 
-## 🗺️ Próximos pasos
+## 🧪 Tests
 
-### Sprint 2 — Módulo GDPR + integración Skills Registry
+94 tests pasando con Vitest (6 archivos):
 
-**Objetivo:** Segundo módulo de auditoría + conectar con el Skills Registry para mostrar badges
+| Archivo | Tests | Qué cubre |
+|---------|-------|-----------|
+| `health.test.ts` | 1 | Endpoint health |
+| `auth.test.ts` | 4 | Generación y validación de tokens |
+| `audit.test.ts` | 5 | Auditoría seguridad end-to-end |
+| `securityAudit.test.ts` | 34 | Tests unitarios 8 checks seguridad |
+| `gdprAudit.test.ts` | 33 | Tests unitarios 8 checks GDPR |
+| `certification.test.ts` | 17 | Endpoints de certificación |
 
-- [ ] **Endpoint `POST /v1/audit/gdpr`** con estos checks:
-  - ¿El agente procesa datos personales? ¿Con qué justificación?
-  - ¿Tiene política de retención de memoria configurada?
-  - ¿Los datos de terceros quedan fuera del contexto enviado al LLM?
-  - ¿Existe log/registro de qué datos se procesan?
-- [ ] **Certificado digital** — generar PDF/JSON firmado tras auditoría aprobada
-- [ ] **Endpoint `GET /v1/certifications/:id`** — consultar certificado público
-- [ ] **Webhook hacia Skills Registry** — notificar badge "✅ Security Audited" cuando un skill pasa
-- [ ] **Dashboard básico** — React/Next.js que muestre auditorías del cliente
-- [ ] **Skill conector** para OpenClaw — script bash/Node que cualquier OpenClaw pueda instalar para llamar a esta API
+---
 
-### Sprint 3 — Formación por dominio (API-first, vendor lock-in)
+## 🗺️ Roadmap
 
-**Objetivo:** Dar capacidades especializadas a agentes SIN ceder el know-how
+### ✅ Sprint 1 — Seguridad
+### ✅ Sprint 2 — GDPR + Certificaciones + Skill Connector + Deploy Render
 
-- [ ] **Endpoint `POST /v1/train/domain`** — activa un dominio de conocimiento en el agente vía API
-  - Dominios iniciales: `asesor-financiero`, `atencion-cliente`, `soporte-tecnico`
-  - El agente llama a este endpoint en cada conversación para enriquecer el contexto
-  - La lógica y prompts especializados viven en el servidor, no en el cliente
-- [ ] **Token con scopes** — `audit:read`, `train:domain`, `certify:gdpr`
-- [ ] **Rate limiting** por tier (free/pro/enterprise)
-- [ ] **Billing con Stripe** — suscripción mensual por agente
+### 🔄 Sprint 3 — MCP Connector + Dashboard + Billing
+- MCP server connector (protocolo MCP nativo)
+- Token scopes (`audit:security`, `audit:gdpr`, `certify`)
+- Rate limiting por tier
+- Billing con Stripe (suscripción por agente)
+- Dashboard básico React para ver auditorías y certificados
 
-### Sprint 4 — Primer cliente real (asesor de Edu)
-
-- [ ] Auditar la instancia OpenClaw del cliente
-- [ ] Generar informe y certificado GDPR
-- [ ] Activar dominio "asesor-financiero" para su agente
-- [ ] Cobrar setup fee (1.500-3.000€) + mensualidad (200-400€/mes)
+### 📋 Sprint 4 — Primer cliente real
+- Auditar instancia OpenClaw del cliente
+- Informe + certificado GDPR
+- Setup fee + mensualidad
 
 ---
 
@@ -190,7 +205,5 @@ tests/
 
 ```env
 DATABASE_URL=postgresql://...?pgbouncer=true&schema=university
-DIRECT_URL=postgresql://...?schema=university
 PORT=3000
-HOST=0.0.0.0
 ```
