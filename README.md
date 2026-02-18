@@ -4,24 +4,30 @@
 
 **Repo:** https://github.com/jotajota1302/university  
 **Producción:** https://openclaw-university-api.onrender.com  
-**Estado:** ✅ Sprint 2 completo y operativo  
+**Estado:** ✅ Sprint 3 completo y operativo  
 **DB:** Supabase PostgreSQL (schema `university`)  
 **Stack:** Node.js · TypeScript · Fastify · Prisma · Render
+
+📖 **[Ver manual completo de funcionalidades →](./FEATURES.md)**
 
 ---
 
 ## 🔌 Endpoints disponibles
 
-| Método | Ruta | Auth | Descripción |
-|--------|------|------|-------------|
-| GET | `/v1/health` | No | Health check del servidor |
-| POST | `/v1/auth/token` | No | Genera token de acceso (válido 30 días) |
-| POST | `/v1/audit/security` | Bearer | Auditoría de seguridad (8 checks) |
-| POST | `/v1/audit/gdpr` | Bearer | Auditoría GDPR/privacidad (8 checks) |
-| POST | `/v1/certifications` | Bearer | Crear certificado desde auditoría aprobada |
-| GET | `/v1/certifications/:id` | Bearer | Datos del certificado |
-| GET | `/v1/certifications/:id/badge` | No | Badge SVG público |
-| GET | `/v1/certifications/:id/verify` | No | Verificación pública del certificado |
+| Método | Ruta | Auth | Sprint | Descripción |
+|--------|------|------|--------|-------------|
+| GET | `/v1/health` | No | 1 | Health check del servidor |
+| POST | `/v1/auth/token` | No | 1 | Genera token de acceso (válido 30 días) |
+| POST | `/v1/audit/security` | Bearer | 1 | Auditoría de seguridad (8 checks) |
+| POST | `/v1/audit/gdpr` | Bearer | 2 | Auditoría GDPR/privacidad (8 checks) |
+| POST | `/v1/certifications` | Bearer | 2 | Crear certificado desde auditoría aprobada |
+| GET | `/v1/certifications/:id` | Bearer | 2 | Datos del certificado |
+| GET | `/v1/certifications/:id/badge` | No | 2 | Badge SVG público |
+| GET | `/v1/certifications/:id/verify` | No | 2 | Verificación pública del certificado |
+| GET | `/v1/billing/subscription` | Bearer | 3 | Estado del plan actual |
+| POST | `/v1/billing/checkout` | Bearer | 3 | URL de pago para upgrade (Stripe) |
+| POST | `/v1/billing/webhook` | Stripe | 3 | Webhook de Stripe (activar/cancelar tier) |
+| GET | `/v1/audits` | Bearer | 3 | Historial de auditorías paginado |
 
 ---
 
@@ -184,19 +190,14 @@ Tablas en el schema `university`:
 
 ## 🗺️ Roadmap
 
-### ✅ Sprint 1 — Seguridad
-### ✅ Sprint 2 — GDPR + Certificaciones + Skill Connector + Deploy Render
+### ✅ Sprint 1 — Seguridad (36 tests)
+### ✅ Sprint 2 — GDPR + Certificaciones + Skill Connector + Deploy Render (94 tests)
+### ✅ Sprint 3 — Token Scopes + Rate Limiting + Stripe Billing + Historial (104 tests)
 
-### 🔄 Sprint 3 — MCP Connector + Dashboard + Billing
-- MCP server connector (protocolo MCP nativo)
-- Token scopes (`audit:security`, `audit:gdpr`, `certify`)
-- Rate limiting por tier
-- Billing con Stripe (suscripción por agente)
-- Dashboard básico React para ver auditorías y certificados
-
-### 📋 Sprint 4 — Primer cliente real
-- Auditar instancia OpenClaw del cliente
-- Informe + certificado GDPR
+### 🔄 Sprint 4 — Dashboard + Stripe real + Primer cliente
+- Dashboard React para ver auditorías y certificados
+- Stripe configurado con productos reales
+- Primer cliente real: auditoría + certificado GDPR
 - Setup fee + mensualidad
 
 ---
