@@ -1,10 +1,13 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+  schemas   = ["university"]
 }
 
 model Token {
@@ -14,6 +17,8 @@ model Token {
   active    Boolean  @default(true)
   createdAt DateTime @default(now())
   expiresAt DateTime
+
+  @@schema("university")
 }
 
 model Audit {
@@ -23,4 +28,6 @@ model Audit {
   grade     String
   result    String
   createdAt DateTime @default(now())
+
+  @@schema("university")
 }
