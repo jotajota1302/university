@@ -1,5 +1,5 @@
 export type Severity = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
-export type CheckStatus = 'PASS' | 'FAIL';
+export type CheckStatus = 'PASS' | 'FAIL' | 'N/A';
 
 export interface SecurityCheck {
   id: string;
@@ -16,20 +16,33 @@ export interface AuditFiles {
   config?: string;
 }
 
+// Returns N/A check when the required file is absent — no penalty applied
+function naCheck(id: string, severity: Severity, requiredFile: string): SecurityCheck {
+  return {
+    id,
+    status: 'N/A',
+    severity,
+    message: `Check skipped: ${requiredFile} not provided`,
+    fix: null,
+  };
+}
+
 export function checkSecurityIssues(files: AuditFiles): SecurityCheck[] {
   const allContent = Object.values(files).join('\n');
+  const hasSoulOrAgents = !!(files['SOUL.md'] || files['AGENTS.md']);
   const soulAndAgents = [files['SOUL.md'] || '', files['AGENTS.md'] || ''].join('\n');
   const configContent = files.config || '';
+  const hasConfig = !!files.config;
 
   return [
     checkSec01(allContent),
-    checkSec02(configContent),
-    checkSec03(configContent),
-    checkSec04(soulAndAgents),
+    hasConfig ? checkSec02(configContent) : naCheck('SEC-02', 'HIGH', 'config'),
+    hasConfig ? checkSec03(configContent) : naCheck('SEC-03', 'HIGH', 'config'),
+    hasSoulOrAgents ? checkSec04(soulAndAgents) : naCheck('SEC-04', 'HIGH', 'SOUL.md / AGENTS.md'),
     checkSec05(allContent),
     checkSec06(allContent),
     checkSec07(allContent),
-    checkSec08(configContent),
+    hasConfig ? checkSec08(configContent) : naCheck('SEC-08', 'LOW', 'config'),
   ];
 }
 
@@ -197,23 +210,26 @@ function checkSec06(content: string): SecurityCheck {
 }
 
 // SEC-07 MEDIUM: Detect data exfiltration instructions
+// Requires an explicit external target (URL or email) within 60 chars of an exfiltration verb
+// This avoids false positives on normal instructions like "send a reply" or "manda a Pilar"
 function checkSec07(content: string): SecurityCheck {
-  const exfilPatterns = [
-    /send\s+to\s+\S+/i,
-    /share\s+with\s+\S+/i,
-    /export\s+to\s+\S+/i,
-  ];
+  // Pattern 1: exfiltration verb near an external URL (http/https, not localhost)
+  const urlPattern = /(?:send|upload|export|subir|enviar|POST|PUT)\b.{0,60}https?:\/\/(?!localhost|127\.0\.0\.1)/i;
 
-  for (const pattern of exfilPatterns) {
-    if (pattern.test(content)) {
-      return {
-        id: 'SEC-07',
-        status: 'FAIL',
-        severity: 'MEDIUM',
-        message: 'Potential data exfiltration instruction detected in agent files',
-        fix: 'Review and remove instructions that direct the agent to send, share, or export data to external references.',
-      };
-    }
+  // Pattern 2: exfiltration verb near an email address
+  const emailPattern = /(?:send|email|mail|forward|enviar|reenviar)\b.{0,60}[\w.+-]+@[\w.-]+\.[a-z]{2,}/i;
+
+  // Pattern 3: raw HTTP call to external host (API call pattern)
+  const httpCallPattern = /(?:POST|PUT|PATCH)\s+https?:\/\/(?!localhost|127\.0\.0\.1)/i;
+
+  if (urlPattern.test(content) || emailPattern.test(content) || httpCallPattern.test(content)) {
+    return {
+      id: 'SEC-07',
+      status: 'FAIL',
+      severity: 'MEDIUM',
+      message: 'Potential data exfiltration instruction detected (external URL or email target found)',
+      fix: 'Review instructions that direct the agent to send or upload data to external endpoints.',
+    };
   }
 
   return {

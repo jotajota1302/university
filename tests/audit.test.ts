@@ -128,7 +128,7 @@ describe('POST /v1/audit/security', () => {
       expect(check).toHaveProperty('severity');
       expect(check).toHaveProperty('message');
       expect(check).toHaveProperty('fix');
-      expect(['PASS', 'FAIL']).toContain(check.status);
+      expect(['PASS', 'FAIL', 'N/A']).toContain(check.status);
       expect(['CRITICAL', 'HIGH', 'MEDIUM', 'LOW']).toContain(check.severity);
     }
   });
