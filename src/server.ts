@@ -4,6 +4,8 @@ import { authRoute } from './routes/auth';
 import { auditRoute } from './routes/audit';
 import { gdprRoute } from './routes/gdpr';
 import { certificationsRoute } from './routes/certifications';
+import { billingRoutes } from './routes/billing';
+import { auditsRoutes } from './routes/audits';
 
 export function buildApp() {
   const app = Fastify({
@@ -15,6 +17,8 @@ export function buildApp() {
   app.register(auditRoute, { prefix: '/v1' });
   app.register(gdprRoute, { prefix: '/v1' });
   app.register(certificationsRoute, { prefix: '/v1' });
+  app.register(billingRoutes);
+  app.register(auditsRoutes);
 
   return app;
 }

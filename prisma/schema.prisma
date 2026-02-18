@@ -11,12 +11,18 @@ datasource db {
 }
 
 model Token {
-  id        String   @id @default(uuid())
-  clientId  String
-  token     String   @unique
-  active    Boolean  @default(true)
-  createdAt DateTime @default(now())
-  expiresAt DateTime
+  id                    String   @id @default(uuid())
+  clientId              String
+  token                 String   @unique
+  active                Boolean  @default(true)
+  createdAt             DateTime @default(now())
+  expiresAt             DateTime
+  scopes                String   @default("audit:security")
+  tier                  String   @default("free")
+  auditCount            Int      @default(0)
+  auditLimit            Int      @default(1)
+  stripeCustomerId      String?
+  stripeSubscriptionId  String?
 
   @@schema("university")
 }
