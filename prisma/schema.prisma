@@ -1,0 +1,54 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["multiSchema"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+  schemas   = ["university"]
+}
+
+model Token {
+  id                    String   @id @default(uuid())
+  clientId              String
+  token                 String   @unique
+  active                Boolean  @default(true)
+  createdAt             DateTime @default(now())
+  expiresAt             DateTime
+  scopes                String   @default("audit:security")
+  tier                  String   @default("free")
+  auditCount            Int      @default(0)
+  auditLimit            Int      @default(1)
+  stripeCustomerId      String?
+  stripeSubscriptionId  String?
+
+  @@schema("university")
+}
+
+model Audit {
+  id        String   @id @default(uuid())
+  tokenId   String
+  score     Int
+  grade     String
+  result    String
+  createdAt DateTime @default(now())
+
+  @@schema("university")
+}
+
+model Validation {
+  id         String    @id @default(uuid())
+  auditId    String    @unique
+  tokenId    String
+  type       String
+  grade      String
+  score      Int
+  issuedAt   DateTime  @default(now())
+  validUntil DateTime
+  revoked    Boolean   @default(false)
+  revokedAt  DateTime?
+
+  @@schema("university")
+}

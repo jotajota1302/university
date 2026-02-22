@@ -1,0 +1,28 @@
+{
+  "name": "openclaw-university",
+  "version": "1.0.0",
+  "description": "OpenClaw University Monorepo",
+  "private": true,
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "cd api && ts-node src/server.ts",
+    "build": "cd api && npm run build && rm -rf ../dist && cp -R dist ../dist",
+    "start": "node dist/server.js",
+    "test": "cd api && npm test",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "@types/node": "^20.19.33",
+    "@types/uuid": "^10.0.0",
+    "fastify": "^4.28.1",
+    "prisma": "^5.22.0",
+    "typescript": "^5.9.3",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "vitest": "^2.1.4"
+  }
+}
