@@ -33,30 +33,41 @@ export async function auditRoute(app: FastifyInstance): Promise<void> {
       const checks = checkSecurityIssues(files);
 
       let score = 100;
-      const certificationBlockers: string[] = [];
+      const blockersTechnical: string[] = [];
+      const blockersPolicy: string[] = [];
+
+      const policyBlockers = new Set(['ETH-02']);
 
       for (const check of checks) {
         if (check.status === 'FAIL') {
           switch (check.severity) {
             case 'CRITICAL':
               score -= 25;
-              certificationBlockers.push(check.id);
+              blockersTechnical.push(check.id);
               break;
             case 'HIGH':
-              score -= 15;
-              certificationBlockers.push(check.id);
+              score -= 12;
+              blockersTechnical.push(check.id);
               break;
             case 'MEDIUM':
-              score -= 10;
+              score -= 6;
               break;
             case 'LOW':
-              score -= 5;
+              score -= 3;
               break;
           }
+        }
+
+        // Some policy checks are blocker by design even if downgraded in future calibrations.
+        if (policyBlockers.has(check.id) && (check.status === 'FAIL' || check.status === 'WARN')) {
+          blockersPolicy.push(check.id);
         }
       }
 
       score = Math.max(0, score);
+      const uniqueTechnicalBlockers = Array.from(new Set(blockersTechnical));
+      const uniquePolicyBlockers = Array.from(new Set(blockersPolicy));
+      const uniqueBlockers = Array.from(new Set([...uniqueTechnicalBlockers, ...uniquePolicyBlockers]));
 
       let grade: string;
       if (score >= 90) grade = 'A';
@@ -65,7 +76,7 @@ export async function auditRoute(app: FastifyInstance): Promise<void> {
       else if (score >= 40) grade = 'D';
       else grade = 'F';
 
-      const certifiable = certificationBlockers.length === 0 && score >= 75;
+      const certifiable = uniqueBlockers.length === 0 && score >= 75;
 
       const recommendations = buildRecommendations(checks);
 
@@ -77,7 +88,9 @@ export async function auditRoute(app: FastifyInstance): Promise<void> {
         checks,
         recommendations,
         certifiable,
-        certificationBlockers,
+        certificationBlockers: uniqueBlockers,
+        blockersTechnical: uniqueTechnicalBlockers,
+        blockersPolicy: uniquePolicyBlockers,
       };
 
       await prisma.audit.create({
@@ -99,7 +112,7 @@ function buildRecommendations(checks: ReturnType<typeof checkSecurityIssues>): s
   const recs: string[] = [];
 
   for (const check of checks) {
-    if (check.status === 'FAIL' && check.fix) {
+    if ((check.status === 'FAIL' || check.status === 'WARN') && check.fix) {
       recs.push(`[${check.id}] ${check.fix}`);
     }
   }
