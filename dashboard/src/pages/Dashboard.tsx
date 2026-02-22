@@ -27,10 +27,10 @@ export function Dashboard() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-          <p className="text-slate-400 mt-1">Estado de tu agente OpenClaw</p>
+          <p className="text-slate-400 mt-1">Panel de testing de features y validación de tu agente OpenClaw</p>
         </div>
         <Link to="/audit/new" className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg font-medium transition-colors">
-          <PlusCircle size={16} /> Nueva Auditoría
+          <PlusCircle size={16} /> Probar feature ahora
         </Link>
       </div>
 
@@ -101,9 +101,9 @@ export function Dashboard() {
         {audits.length === 0 ? (
           <div className="bg-slate-900 border border-slate-800 border-dashed rounded-xl p-8 text-center">
             <FileSearch size={32} className="text-slate-600 mx-auto mb-3" />
-            <p className="text-slate-400">Todavía no hay auditorías</p>
+            <p className="text-slate-400">Todavía no hay auditorías de features</p>
             <Link to="/audit/new" className="text-indigo-400 text-sm hover:text-indigo-300 mt-2 inline-block">
-              Lanzar tu primera auditoría →
+              Crear auditoría de prueba →
             </Link>
           </div>
         ) : (
