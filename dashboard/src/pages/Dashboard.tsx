@@ -73,18 +73,18 @@ export function Dashboard() {
         </div>
       </div>
 
-      {/* Upgrade banner for free */}
+      {/* Info banner for free */}
       {sub?.tier === 'free' && (
         <div className="bg-gradient-to-r from-indigo-600/20 to-violet-600/20 border border-indigo-600/30 rounded-xl p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Award size={20} className="text-indigo-400" />
             <div>
               <p className="text-sm font-medium text-white">Plan Free — 1 auditoría/mes</p>
-              <p className="text-xs text-slate-400">Actualiza a Pro para 10 auditorías + módulo GDPR + validaciones</p>
+              <p className="text-xs text-slate-400">Modo pruebas: usa esta auditoría para validar flujo y calidad del reporte</p>
             </div>
           </div>
           <Link to="/billing" className="text-sm bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap flex items-center gap-1">
-            Upgrade <ArrowRight size={14} />
+            Ver planes <ArrowRight size={14} />
           </Link>
         </div>
       )}
