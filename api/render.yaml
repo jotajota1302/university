@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: openclaw-university-api
+    runtime: node
+    region: frankfurt
+    plan: free
+    buildCommand: npm install --include=dev && npx prisma generate && npm run build
+    startCommand: node dist/server.js
+    healthCheckPath: /v1/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: PORT
+        value: 3000

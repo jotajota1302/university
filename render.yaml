@@ -4,6 +4,7 @@ services:
     runtime: node
     region: frankfurt
     plan: free
+    rootDir: api
     buildCommand: npm install --include=dev && npx prisma generate && npm run build
     startCommand: node dist/server.js
     healthCheckPath: /v1/health
