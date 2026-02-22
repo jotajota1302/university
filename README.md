@@ -1,10 +1,11 @@
 # OpenClaw University API
 
-> Motor de auditoría y certificación de agentes OpenClaw. API-first: los clientes instalan un conector ligero; toda la inteligencia vive en este servidor.
+> Motor de auditoría y validación de agentes OpenClaw. API-first: los clientes instalan un conector ligero; toda la inteligencia vive en este servidor.
 
 **Repo:** https://github.com/jotajota1302/university  
 **Producción:** https://openclaw-university-api.onrender.com  
-**Estado:** ✅ Sprint 3 completo y operativo  
+**Estado:** ✅ Sprint 4 completo — Dashboard en producción  
+**Dashboard:** https://openclaw-university-dashboard.vercel.app  
 **DB:** Supabase PostgreSQL (schema `university`)  
 **Stack:** Node.js · TypeScript · Fastify · Prisma · Render
 
@@ -18,12 +19,12 @@
 |--------|------|------|--------|-------------|
 | GET | `/v1/health` | No | 1 | Health check del servidor |
 | POST | `/v1/auth/token` | No | 1 | Genera token de acceso (válido 30 días) |
-| POST | `/v1/audit/security` | Bearer | 1 | Auditoría de seguridad (8 checks) |
+| POST | `/v1/audit/security` | Bearer | 1-5 | Auditoría de seguridad ampliada (16 checks + blockers técnicos/política) |
 | POST | `/v1/audit/gdpr` | Bearer | 2 | Auditoría GDPR/privacidad (8 checks) |
-| POST | `/v1/certifications` | Bearer | 2 | Crear certificado desde auditoría aprobada |
-| GET | `/v1/certifications/:id` | Bearer | 2 | Datos del certificado |
-| GET | `/v1/certifications/:id/badge` | No | 2 | Badge SVG público |
-| GET | `/v1/certifications/:id/verify` | No | 2 | Verificación pública del certificado |
+| POST | `/v1/validations` | Bearer | 2 | Crear validación desde auditoría aprobada |
+| GET | `/v1/validations/:id` | Bearer | 2 | Datos de la validación |
+| GET | `/v1/validations/:id/badge` | No | 2 | Badge SVG público |
+| GET | `/v1/validations/:id/verify` | No | 2 | Verificación pública de la validación |
 | GET | `/v1/billing/subscription` | Bearer | 3 | Estado del plan actual |
 | POST | `/v1/billing/checkout` | Bearer | 3 | URL de pago para upgrade (Stripe) |
 | POST | `/v1/billing/webhook` | Stripe | 3 | Webhook de Stripe (activar/cancelar tier) |
@@ -31,20 +32,28 @@
 
 ---
 
-## ✅ Sprint 1 — Seguridad (completo)
+## ✅ Sprint 1 — Seguridad (base completa)
 
-### Checks de seguridad
+### Checks de seguridad (estado actual ampliado: 16)
 
 | Check | Severidad | Qué detecta |
 |-------|-----------|-------------|
-| SEC-01 | 🔴 CRITICAL | API keys / tokens en texto plano (ghp_, sk-, AKIA...) |
+| SEC-01 | 🔴 CRITICAL | API keys / tokens en texto plano (con reducción de falsos positivos de placeholders) |
 | SEC-02 | 🟠 HIGH | Falta de `dmPolicy` en la config |
 | SEC-03 | 🟠 HIGH | Falta de `allowFrom` en la config |
-| SEC-04 | 🟠 HIGH | Palabras clave de credenciales en SOUL/AGENTS |
+| SEC-04 | 🟠 HIGH | Credenciales hardcodeadas en SOUL/AGENTS (`WARN` si solo hay mención sin valor) |
 | SEC-05 | 🟠 HIGH | Comandos destructivos (rm -rf, DROP TABLE...) |
-| SEC-06 | 🟡 MEDIUM | Datos personales (emails, teléfonos) en archivos |
+| SEC-06 | 🟡 MEDIUM | Datos personales en contexto de contacto (regex más precisa) |
 | SEC-07 | 🟡 MEDIUM | Instrucciones de exfiltración de datos |
-| SEC-08 | 🟢 LOW | Falta de configuración de aislamiento de sesión |
+| SEC-08 | 🟢 LOW | Aislamiento de sesión (`sessionId`, `session_id`, `session`, `dmScope`) |
+| ETH-01 | 🟡 MEDIUM | Acciones externas con target externo sin política de confirmación explícita |
+| TOOL-01 | 🟡 MEDIUM | Herramientas de riesgo habilitadas sin guardrails |
+| FILE-01 | 🟠 HIGH | Acceso amplio a rutas/artefactos sensibles |
+| NET-01 | 🟠 HIGH | Exposición de red sin controles completos |
+| MSG-01 | 🟡 MEDIUM | Canales salientes sin límites de política |
+| ETH-02 | 🟠 HIGH | Acciones irreversibles sin confirmación explícita (blocker de política) |
+| CONSENT-01 | 🟡 MEDIUM | Flujo de datos externos sin consentimiento/autorización explícita |
+| PRIV-01 | 🟡 MEDIUM | Retención masiva sin límites (TTL/minimización/anonimización) |
 
 ---
 
@@ -69,8 +78,8 @@
 - Grades: A (90-100) · B (75-89) · C (60-74) · D (40-59) · F (<40)
 - `certifiable: true` si no hay checks CRITICAL o HIGH fallidos
 
-### Certificaciones
-- Crear certificado a partir de una auditoría con `certifiable: true`
+### Validaciones
+- Crear validación a partir de una auditoría con `certifiable: true`
 - Badge SVG público embebible en README o web
 - Endpoint de verificación pública (sin auth) para que cualquiera pueda validar un badge
 - Validez: 6 meses desde la emisión
@@ -149,9 +158,9 @@ curl -X POST https://openclaw-university-api.onrender.com/v1/audit/gdpr \
   }'
 ```
 
-### Crear certificado
+### Crear validación
 ```bash
-curl -X POST https://openclaw-university-api.onrender.com/v1/certifications \
+curl -X POST https://openclaw-university-api.onrender.com/v1/validations \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer <token>" \
   -d '{"auditId":"uuid-de-auditoria-certificable","type":"SECURITY"}'
@@ -159,7 +168,7 @@ curl -X POST https://openclaw-university-api.onrender.com/v1/certifications \
 
 ### Verificar badge (sin auth)
 ```bash
-curl https://openclaw-university-api.onrender.com/v1/certifications/<id>/verify
+curl https://openclaw-university-api.onrender.com/v1/validations/<id>/verify
 ```
 
 ---
@@ -169,22 +178,23 @@ curl https://openclaw-university-api.onrender.com/v1/certifications/<id>/verify
 Tablas en el schema `university`:
 - **Token** — tokens de acceso (clientId, token UUID, active, expiresAt)
 - **Audit** — registro de auditorías (tokenId, score, grade, módulo, resultado JSON)
-- **Certificate** — certificados emitidos (auditId, grade, validUntil, revoked)
+- **Validation** — validaciones emitidas (auditId, grade, validUntil, revoked)
 
 ---
 
 ## 🧪 Tests
 
-94 tests pasando con Vitest (6 archivos):
+118 tests pasando con Vitest (7 archivos):
 
 | Archivo | Tests | Qué cubre |
 |---------|-------|-----------|
 | `health.test.ts` | 1 | Endpoint health |
 | `auth.test.ts` | 4 | Generación y validación de tokens |
-| `audit.test.ts` | 5 | Auditoría seguridad end-to-end |
-| `securityAudit.test.ts` | 34 | Tests unitarios 8 checks seguridad |
+| `audit.test.ts` | 7 | Auditoría seguridad end-to-end (WARN + blockers de política) |
+| `securityAudit.test.ts` | 46 | Tests unitarios 16 checks seguridad/gobernanza |
 | `gdprAudit.test.ts` | 33 | Tests unitarios 8 checks GDPR |
-| `certification.test.ts` | 17 | Endpoints de certificación |
+| `validation.test.ts` | 17 | Endpoints de validación |
+| `billing.test.ts` | 10 | Scopes, rate limits, Stripe billing |
 
 ---
 
@@ -194,11 +204,20 @@ Tablas en el schema `university`:
 ### ✅ Sprint 2 — GDPR + Certificaciones + Skill Connector + Deploy Render (94 tests)
 ### ✅ Sprint 3 — Token Scopes + Rate Limiting + Stripe Billing + Historial (104 tests)
 
-### 🔄 Sprint 4 — Dashboard + Stripe real + Primer cliente
-- Dashboard React para ver auditorías y certificados
-- Stripe configurado con productos reales
-- Primer cliente real: auditoría + certificado GDPR
-- Setup fee + mensualidad
+### ✅ Sprint 4 — Dashboard en producción (2026-02-18)
+- Dashboard React: Login, Auditorías, Resultados, Certificados, Historial
+- Deploy en Vercel: https://openclaw-university-dashboard.vercel.app
+- GDPR consent en el flujo de auditoría
+- Privacy Policy: `PRIVACY_POLICY.md`
+- Token de Edu listo para PoC (clientId: `edu`, expira 2026-03-20)
+
+### 🔄 Sprint 5 — Hardening auditoría + PoC con Edu (en progreso)
+- ✅ PoC real con Edu ejecutada en ngrok (auditoría funcional end-to-end)
+- ✅ Hardening anti-falsos positivos + estado `WARN`
+- ✅ Separación de `validationBlockers` por tipo: `blockersTechnical` y `blockersPolicy`
+- ✅ ETH-02 como blocker de política explícito
+- ⏳ Siguiente: nueva ronda PoC con reglas calibradas
+- ⏳ Stripe real pendiente (pro 49€, enterprise 199€)
 
 ---
 

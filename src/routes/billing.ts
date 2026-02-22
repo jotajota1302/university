@@ -6,12 +6,12 @@ const prisma = new PrismaClient();
 
 const TIER_CONFIG: Record<string, { scopes: string; auditLimit: number; price: string }> = {
   pro: {
-    scopes: 'audit:security,audit:gdpr,certify',
+    scopes: 'audit:security,audit:gdpr,validate',
     auditLimit: 10,
     price: '49€/month',
   },
   enterprise: {
-    scopes: 'audit:security,audit:gdpr,certify,*',
+    scopes: 'audit:security,audit:gdpr,validate,*',
     auditLimit: 999,
     price: '199€/month',
   },

@@ -3,7 +3,7 @@ import { healthRoute } from './routes/health';
 import { authRoute } from './routes/auth';
 import { auditRoute } from './routes/audit';
 import { gdprRoute } from './routes/gdpr';
-import { certificationsRoute } from './routes/certifications';
+import { validationsRoute } from './routes/validations';
 import { billingRoutes } from './routes/billing';
 import { auditsRoutes } from './routes/audits';
 
@@ -16,7 +16,7 @@ export function buildApp() {
   app.register(authRoute, { prefix: '/v1' });
   app.register(auditRoute, { prefix: '/v1' });
   app.register(gdprRoute, { prefix: '/v1' });
-  app.register(certificationsRoute, { prefix: '/v1' });
+  app.register(validationsRoute, { prefix: '/v1' });
   app.register(billingRoutes);
   app.register(auditsRoutes);
 

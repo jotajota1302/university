@@ -92,6 +92,10 @@ Content-Type: application/json
 
 Todos los campos de `files` son opcionales. Si no se proporciona un archivo, los checks que lo requieren se marcan como `N/A`.
 
+**Estados de check actuales:** `PASS`, `FAIL`, `WARN`, `N/A`.
+- `FAIL` penaliza score.
+- `WARN` no penaliza score, pero genera recomendación y puede bloquear certificación si es policy-blocker.
+
 **Respuesta:**
 ```json
 {
@@ -99,7 +103,9 @@ Todos los campos de `files` son opcionales. Si no se proporciona un archivo, los
   "score": 85,
   "grade": "B",
   "certifiable": false,
-  "certificationBlockers": ["SEC-02"],
+  "certificationBlockers": ["SEC-02", "ETH-02"],
+  "blockersTechnical": ["SEC-02"],
+  "blockersPolicy": ["ETH-02"],
   "checks": [
     {
       "id": "SEC-01",
@@ -120,23 +126,36 @@ Todos los campos de `files` son opcionales. Si no se proporciona un archivo, los
 }
 ```
 
-**Checks incluidos:**
+**Checks incluidos (16):**
 
 | ID | Severidad | Qué detecta | Penalización |
 |----|-----------|-------------|--------------|
 | SEC-01 | 🔴 CRITICAL | API keys en texto plano (`ghp_`, `sk-`, `AKIA...`) | -25 pts |
-| SEC-02 | 🟠 HIGH | Falta de `dmPolicy` en la config | -15 pts |
-| SEC-03 | 🟠 HIGH | Falta de `allowFrom` en la config | -15 pts |
-| SEC-04 | 🟠 HIGH | Palabras clave de credenciales en SOUL/AGENTS | -15 pts |
-| SEC-05 | 🟠 HIGH | Comandos destructivos (`rm -rf`, `DROP TABLE`...) | -15 pts |
-| SEC-06 | 🟡 MEDIUM | Emails o teléfonos en archivos del agente | -10 pts |
-| SEC-07 | 🟡 MEDIUM | Instrucciones de exfiltración de datos | -10 pts |
-| SEC-08 | 🟢 LOW | Falta de configuración de aislamiento de sesión | -5 pts |
+| SEC-02 | 🟠 HIGH | Falta de `dmPolicy` en la config | -12 pts |
+| SEC-03 | 🟠 HIGH | Falta de `allowFrom` en la config | -12 pts |
+| SEC-04 | 🟠 HIGH | Credenciales hardcodeadas en SOUL/AGENTS (`WARN` si solo hay mención sin valor) | -12 pts |
+| SEC-05 | 🟠 HIGH | Comandos destructivos (`rm -rf`, `DROP TABLE`...) | -12 pts |
+| SEC-06 | 🟡 MEDIUM | Datos personales en contexto de contacto (regex más precisa) | -6 pts |
+| SEC-07 | 🟡 MEDIUM | Instrucciones de exfiltración de datos | -6 pts |
+| SEC-08 | 🟢 LOW | Falta de configuración de aislamiento de sesión | -3 pts |
+| ETH-01 | 🟡 MEDIUM | Acciones externas con target externo sin política de confirmación explícita | 0 pts (`WARN`) |
+| TOOL-01 | 🟡 MEDIUM | Herramientas de riesgo habilitadas sin guardrails | 0 pts (`WARN`) |
+| FILE-01 | 🟠 HIGH | Acceso amplio a rutas/artefactos sensibles | -12 pts |
+| NET-01 | 🟠 HIGH | Exposición de red sin controles completos | -12 pts |
+| MSG-01 | 🟡 MEDIUM | Canales salientes sin límites de política | 0 pts (`WARN`) |
+| ETH-02 | 🟠 HIGH | Acciones irreversibles sin confirmación explícita | -12 pts (+policy blocker) |
+| CONSENT-01 | 🟡 MEDIUM | Flujo de datos externos sin consentimiento/autorización explícita | 0 pts (`WARN`) |
+| PRIV-01 | 🟡 MEDIUM | Retención masiva sin límites (TTL/minimización/anonimización) | 0 pts (`WARN`) |
 
 **Scoring:**
 - Puntuación: 100 − suma de penalizaciones
+- Pesos actuales: CRITICAL −25 · HIGH −12 · MEDIUM −6 · LOW −3
+- `WARN` no penaliza score (sí recomendación)
 - **A** (90-100) · **B** (75-89) · **C** (60-74) · **D** (40-59) · **F** (<40)
-- `certifiable: true` si no hay checks CRITICAL o HIGH fallidos
+- `certifiable: true` si no hay blockers (`certificationBlockers`) y score >= 75
+- `certificationBlockers` se desglosa en:
+  - `blockersTechnical`
+  - `blockersPolicy` (ej. `ETH-02`)
 
 ---
 
@@ -430,10 +449,16 @@ Authorization: Bearer <token>
 
 ## Roadmap
 
-### Sprint 4 (próximo)
+### Sprint 4 ✅ (completado)
 - Dashboard React para ver auditorías y certificados
-- Stripe configurado con productos reales
-- Primer cliente real: auditoría + certificado GDPR
+- Flujo GDPR integrado en dashboard
+- Deploy producción dashboard (Vercel)
+
+## Sprint 5 🔄 (en progreso)
+- Hardening de auditoría de seguridad (falsos positivos, WARN, nuevos checks)
+- Separación blockers técnicos vs gobernanza/política
+- PoC real con Edu (ngrok) ya ejecutada; siguiente ronda con reglas calibradas
+- Stripe real pendiente de activación final
 
 ### Futuro
 - Módulo de formación por dominio (vendor lock-in total)

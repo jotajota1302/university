@@ -38,7 +38,7 @@ model Audit {
   @@schema("university")
 }
 
-model Certificate {
+model Validation {
   id         String    @id @default(uuid())
   auditId    String    @unique
   tokenId    String

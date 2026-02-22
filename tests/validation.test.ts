@@ -6,7 +6,7 @@ let app: FastifyInstance;
 let validToken: string;
 let certifiableAuditId: string;
 let nonCertifiableAuditId: string;
-let certificateId: string;
+let validationId: string;
 
 beforeAll(async () => {
   app = buildApp();
@@ -18,8 +18,8 @@ beforeAll(async () => {
     url: '/v1/auth/token',
     headers: { 'Content-Type': 'application/json' },
     payload: {
-      clientId: 'cert-test-client',
-      secret: 'cert-test-secret',
+      clientId: 'validation-test-client',
+      secret: 'validation-test-secret',
     },
   });
   validToken = tokenResponse.json().token;
@@ -66,11 +66,11 @@ afterAll(async () => {
   await app.close();
 });
 
-describe('POST /v1/certifications', () => {
+describe('POST /v1/validations', () => {
   it('returns 401 without auth token', async () => {
     const response = await app.inject({
       method: 'POST',
-      url: '/v1/certifications',
+      url: '/v1/validations',
       headers: { 'Content-Type': 'application/json' },
       payload: { auditId: certifiableAuditId, type: 'SECURITY' },
     });
@@ -80,7 +80,7 @@ describe('POST /v1/certifications', () => {
   it('returns 400 when auditId is missing', async () => {
     const response = await app.inject({
       method: 'POST',
-      url: '/v1/certifications',
+      url: '/v1/validations',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${validToken}`,
@@ -93,7 +93,7 @@ describe('POST /v1/certifications', () => {
   it('returns 400 when type is invalid', async () => {
     const response = await app.inject({
       method: 'POST',
-      url: '/v1/certifications',
+      url: '/v1/validations',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${validToken}`,
@@ -106,7 +106,7 @@ describe('POST /v1/certifications', () => {
   it('returns 404 when audit does not exist', async () => {
     const response = await app.inject({
       method: 'POST',
-      url: '/v1/certifications',
+      url: '/v1/validations',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${validToken}`,
@@ -119,7 +119,7 @@ describe('POST /v1/certifications', () => {
   it('returns 400 when audit is not certifiable', async () => {
     const response = await app.inject({
       method: 'POST',
-      url: '/v1/certifications',
+      url: '/v1/validations',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${validToken}`,
@@ -127,13 +127,13 @@ describe('POST /v1/certifications', () => {
       payload: { auditId: nonCertifiableAuditId, type: 'SECURITY' },
     });
     expect(response.statusCode).toBe(400);
-    expect(response.json().error).toContain('not certifiable');
+    expect(response.json().error).toContain('not eligible for validation');
   });
 
-  it('creates certificate from certifiable audit', async () => {
+  it('creates validation from certifiable audit', async () => {
     const response = await app.inject({
       method: 'POST',
-      url: '/v1/certifications',
+      url: '/v1/validations',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${validToken}`,
@@ -153,13 +153,13 @@ describe('POST /v1/certifications', () => {
     expect(body).toHaveProperty('validUntil');
     expect(body).toHaveProperty('revoked', false);
 
-    certificateId = body.id;
+    validationId = body.id;
   });
 
-  it('returns 409 when certificate already exists for audit', async () => {
+  it('returns 409 when validation already exists for audit', async () => {
     const response = await app.inject({
       method: 'POST',
-      url: '/v1/certifications',
+      url: '/v1/validations',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${validToken}`,
@@ -170,35 +170,35 @@ describe('POST /v1/certifications', () => {
   });
 });
 
-describe('GET /v1/certifications/:id', () => {
+describe('GET /v1/validations/:id', () => {
   it('returns 401 without auth token', async () => {
     const response = await app.inject({
       method: 'GET',
-      url: `/v1/certifications/${certificateId}`,
+      url: `/v1/validations/${validationId}`,
     });
     expect(response.statusCode).toBe(401);
   });
 
-  it('returns 404 for non-existent certificate', async () => {
+  it('returns 404 for non-existent validation', async () => {
     const response = await app.inject({
       method: 'GET',
-      url: '/v1/certifications/00000000-0000-0000-0000-000000000000',
+      url: '/v1/validations/00000000-0000-0000-0000-000000000000',
       headers: { Authorization: `Bearer ${validToken}` },
     });
     expect(response.statusCode).toBe(404);
   });
 
-  it('returns certificate details', async () => {
+  it('returns validation details', async () => {
     const response = await app.inject({
       method: 'GET',
-      url: `/v1/certifications/${certificateId}`,
+      url: `/v1/validations/${validationId}`,
       headers: { Authorization: `Bearer ${validToken}` },
     });
 
     expect(response.statusCode).toBe(200);
     const body = response.json();
 
-    expect(body).toHaveProperty('id', certificateId);
+    expect(body).toHaveProperty('id', validationId);
     expect(body).toHaveProperty('auditId', certifiableAuditId);
     expect(body).toHaveProperty('tokenId');
     expect(body).toHaveProperty('type', 'SECURITY');
@@ -211,41 +211,41 @@ describe('GET /v1/certifications/:id', () => {
   });
 });
 
-describe('GET /v1/certifications/:id/badge', () => {
+describe('GET /v1/validations/:id/badge', () => {
   it('returns SVG badge without auth', async () => {
     const response = await app.inject({
       method: 'GET',
-      url: `/v1/certifications/${certificateId}/badge`,
+      url: `/v1/validations/${validationId}/badge`,
     });
 
     expect(response.statusCode).toBe(200);
     expect(response.headers['content-type']).toContain('image/svg+xml');
     expect(response.body).toContain('<svg');
-    expect(response.body).toContain('OpenClaw');
+    expect(response.body).toContain('Audited & Validated');
     expect(response.body).toContain('Grade');
   });
 
-  it('returns 404 for non-existent certificate badge', async () => {
+  it('returns 404 for non-existent validation badge', async () => {
     const response = await app.inject({
       method: 'GET',
-      url: '/v1/certifications/00000000-0000-0000-0000-000000000000/badge',
+      url: '/v1/validations/00000000-0000-0000-0000-000000000000/badge',
     });
     expect(response.statusCode).toBe(404);
   });
 });
 
-describe('GET /v1/certifications/:id/verify', () => {
+describe('GET /v1/validations/:id/verify', () => {
   it('returns verification JSON without auth', async () => {
     const response = await app.inject({
       method: 'GET',
-      url: `/v1/certifications/${certificateId}/verify`,
+      url: `/v1/validations/${validationId}/verify`,
     });
 
     expect(response.statusCode).toBe(200);
     const body = response.json();
 
     expect(body).toHaveProperty('valid', true);
-    expect(body).toHaveProperty('id', certificateId);
+    expect(body).toHaveProperty('id', validationId);
     expect(body).toHaveProperty('type', 'SECURITY');
     expect(body).toHaveProperty('grade');
     expect(body).toHaveProperty('score');
@@ -255,10 +255,10 @@ describe('GET /v1/certifications/:id/verify', () => {
     expect(body).toHaveProperty('expired', false);
   });
 
-  it('returns 404 for non-existent certificate verification', async () => {
+  it('returns 404 for non-existent validation verification', async () => {
     const response = await app.inject({
       method: 'GET',
-      url: '/v1/certifications/00000000-0000-0000-0000-000000000000/verify',
+      url: '/v1/validations/00000000-0000-0000-0000-000000000000/verify',
     });
     expect(response.statusCode).toBe(404);
   });
@@ -302,7 +302,7 @@ describe('POST /v1/audit/gdpr', () => {
     expect(body.checks).toHaveLength(8);
     expect(body).toHaveProperty('recommendations');
     expect(body).toHaveProperty('certifiable');
-    expect(body).toHaveProperty('certificationBlockers');
+    expect(body).toHaveProperty('validationBlockers');
   });
 
   it('detects GDPR issues in dirty files', async () => {

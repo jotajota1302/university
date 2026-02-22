@@ -87,7 +87,7 @@ describe('POST /v1/audit/security', () => {
     expect(body).toHaveProperty('checks');
     expect(body).toHaveProperty('recommendations');
     expect(body).toHaveProperty('certifiable');
-    expect(body).toHaveProperty('certificationBlockers');
+    expect(body).toHaveProperty('validationBlockers');
     expect(body).toHaveProperty('blockersTechnical');
     expect(body).toHaveProperty('blockersPolicy');
 
@@ -102,7 +102,7 @@ describe('POST /v1/audit/security', () => {
     expect(Array.isArray(body.checks)).toBe(true);
     expect(body.checks).toHaveLength(16);
     expect(Array.isArray(body.recommendations)).toBe(true);
-    expect(Array.isArray(body.certificationBlockers)).toBe(true);
+    expect(Array.isArray(body.validationBlockers)).toBe(true);
     expect(Array.isArray(body.blockersTechnical)).toBe(true);
     expect(Array.isArray(body.blockersPolicy)).toBe(true);
     expect(typeof body.certifiable).toBe('boolean');
@@ -160,7 +160,7 @@ describe('POST /v1/audit/security', () => {
     expect(body.score).toBe(100);
   });
 
-  it('ETH-02 acts as explicit certification blocker', async () => {
+  it('ETH-02 acts as explicit validation blocker', async () => {
     const response = await app.inject({
       method: 'POST',
       url: '/v1/audit/security',
@@ -179,7 +179,7 @@ describe('POST /v1/audit/security', () => {
     expect(response.statusCode).toBe(200);
     const body = response.json();
     expect(body.certifiable).toBe(false);
-    expect(body.certificationBlockers).toContain('ETH-02');
+    expect(body.validationBlockers).toContain('ETH-02');
     expect(body.blockersPolicy).toContain('ETH-02');
   });
 

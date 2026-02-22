@@ -34,18 +34,18 @@ export async function gdprRoute(app: FastifyInstance): Promise<void> {
       const checks = checkGdprIssues(files);
 
       let score = 100;
-      const certificationBlockers: string[] = [];
+      const validationBlockers: string[] = [];
 
       for (const check of checks) {
         if (check.status === 'FAIL') {
           switch (check.severity) {
             case 'CRITICAL':
               score -= 25;
-              certificationBlockers.push(check.id);
+              validationBlockers.push(check.id);
               break;
             case 'HIGH':
               score -= 15;
-              certificationBlockers.push(check.id);
+              validationBlockers.push(check.id);
               break;
             case 'MEDIUM':
               score -= 10;
@@ -66,7 +66,7 @@ export async function gdprRoute(app: FastifyInstance): Promise<void> {
       else if (score >= 40) grade = 'D';
       else grade = 'F';
 
-      const certifiable = certificationBlockers.length === 0 && score >= 75;
+      const certifiable = validationBlockers.length === 0 && score >= 75;
 
       const recommendations = buildRecommendations(checks);
 
@@ -79,7 +79,7 @@ export async function gdprRoute(app: FastifyInstance): Promise<void> {
         checks,
         recommendations,
         certifiable,
-        certificationBlockers,
+        validationBlockers,
       };
 
       await prisma.audit.create({

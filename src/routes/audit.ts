@@ -88,7 +88,7 @@ export async function auditRoute(app: FastifyInstance): Promise<void> {
         checks,
         recommendations,
         certifiable,
-        certificationBlockers: uniqueBlockers,
+        validationBlockers: uniqueBlockers,
         blockersTechnical: uniqueTechnicalBlockers,
         blockersPolicy: uniquePolicyBlockers,
       };
