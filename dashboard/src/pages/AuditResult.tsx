@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { Award, Loader2, ChevronDown, ChevronRight } from 'lucide-react';
+import { Award, Loader2, ChevronDown, ChevronRight, ExternalLink, Sparkles } from 'lucide-react';
 import { api, type AuditResult as TAuditResult, type Check } from '../api/client';
 import { GradeDisplay } from '../components/GradeDisplay';
 import { CheckItem } from '../components/CheckItem';
@@ -16,6 +16,7 @@ export function AuditResult() {
   const [validating, setValidating] = useState(false);
   const [validationError, setValidationError] = useState('');
   const [expanded, setExpanded] = useState<Record<string, boolean>>({ CRITICAL: true, HIGH: true, MEDIUM: false, LOW: false });
+  const [skillRecommendations, setSkillRecommendations] = useState<any[]>([]);
 
   useEffect(() => {
     if (!result && id) {
@@ -27,6 +28,29 @@ export function AuditResult() {
         .finally(() => setLoading(false));
     }
   }, [id, result]);
+
+  useEffect(() => {
+    if (result) {
+      // Fetch skill recommendations from University API
+      fetch(`${api.baseURL}/v1/recommendations`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          security_score: result.score,
+          audit_type: 'security',
+        }),
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.recommendations) {
+            setSkillRecommendations(data.recommendations);
+          }
+        })
+        .catch(() => {
+          // Silent fail - recommendations are optional
+        });
+    }
+  }, [result]);
 
   const validate = async () => {
     if (!result || !result.certifiable || validating) return;
@@ -119,6 +143,66 @@ export function AuditResult() {
           </div>
         )}
       </div>
+
+      {/* Skill Recommendations from Skillia */}
+      {skillRecommendations.length > 0 && result.score < 90 && (
+        <div className="rounded-2xl border-2 border-blue-500/30 bg-gradient-to-br from-blue-500/10 to-purple-500/10 p-6">
+          <div className="flex items-start gap-3 mb-4">
+            <Sparkles className="h-6 w-6 text-blue-400 flex-shrink-0 mt-0.5" />
+            <div>
+              <h2 className="text-lg font-bold text-white">Improve Your Score with Skillia</h2>
+              <p className="text-sm text-slate-300 mt-1">
+                Install these certified skills to address detected issues and boost your audit score
+              </p>
+            </div>
+          </div>
+          <div className="space-y-3">
+            {skillRecommendations.slice(0, 3).map((rec, idx) => (
+              <a
+                key={idx}
+                href={rec.skillia_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-start gap-4 bg-slate-900/80 hover:bg-slate-800 border border-slate-700 hover:border-emerald-500/50 rounded-xl p-4 transition-all"
+              >
+                <div className="flex-shrink-0 mt-0.5">
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-lg
+                    ${rec.tier === 'enterprise' ? 'bg-amber-500/20 text-amber-400' : 
+                      rec.tier === 'pro' ? 'bg-blue-500/20 text-blue-400' : 
+                      'bg-emerald-500/20 text-emerald-400'}`}>
+                    {rec.tier === 'enterprise' ? '⭐' : rec.tier === 'pro' ? '💎' : '🆓'}
+                  </div>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-semibold text-white group-hover:text-emerald-400 transition-colors">
+                      {rec.skill}
+                    </h3>
+                    {rec.priority === 'high' && (
+                      <span className="text-xs bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full font-medium">
+                        High priority
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-sm text-slate-400 mt-1 leading-relaxed">{rec.reason}</p>
+                  <div className="flex items-center gap-2 mt-2 text-xs text-slate-500">
+                    <span className="font-mono">{rec.namespace}</span>
+                    <span>·</span>
+                    <span className="capitalize">{rec.tier}</span>
+                  </div>
+                </div>
+                <ExternalLink className="h-4 w-4 text-slate-500 group-hover:text-emerald-400 transition-colors flex-shrink-0 mt-1" />
+              </a>
+            ))}
+          </div>
+          <div className="mt-4 pt-4 border-t border-slate-700">
+            <p className="text-xs text-slate-400">
+              💡 Skills from <span className="font-semibold text-emerald-400">Skillia</span> are certified and maintained. 
+              After installation, re-run this audit to see your improved score.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Checks por severidad */}
       {SEVERITIES.map(severity => {
