@@ -22,14 +22,14 @@
 - Valida integridad de skills instaladas
 - Optimiza rendimiento y recursos
 
-🔗 **Conexión con Skillia Registry:**
+🔗 **Conexión con OpenSkills Registry:**
 - Cross-sell: "Tu OpenClaw necesita esta skill para mejorar X"
 - Instalación asistida de skills recomendadas
-- Embudo: auditoría → skill recommendation → Skillia checkout
+- Embudo: auditoría → skill recommendation → OpenSkills checkout
 
 📊 **Dashboard unificado:**
-- Mismo look & feel que Skillia (Tailwind slate/emerald palette)
-- Login único (futuro: SSO entre University y Skillia)
+- Mismo look & feel que OpenSkills (Tailwind slate/emerald palette)
+- Login único (futuro: SSO entre University y OpenSkills)
 - Historial de auditorías + skills instaladas
 
 ---
@@ -70,11 +70,11 @@ POST /v1/optimize
 GET /v1/skills/installed
 - Input: workspace_path
 - Returns: lista de skills instaladas + metadata
-- Cross-reference con Skillia Registry
+- Cross-reference con OpenSkills Registry
 
 POST /v1/recommendations
 - Input: audit_result + installed_skills
-- Returns: skill recommendations from Skillia
+- Returns: skill recommendations from OpenSkills
 - "Tu OpenClaw tiene riesgo GDPR → instala gdpr-readiness-check"
 ```
 
@@ -96,7 +96,7 @@ POST /v1/recommendations
    - Quick health score (0-100)
    - Botón "Run Full Check"
    - Últimas auditorías
-   - Skills instaladas (con link a Skillia)
+   - Skills instaladas (con link a OpenSkills)
 
 2. Repair Center
    - Issues detectados con botón "Auto-Fix"
@@ -106,7 +106,7 @@ POST /v1/recommendations
 3. Skills Manager
    - Lista de skills instaladas
    - Estado de cada skill (active/broken/outdated)
-   - Botón "Install from Skillia" (redirect)
+   - Botón "Install from OpenSkills" (redirect)
    - Recommendations basadas en auditorías
 
 4. Optimization Hub
@@ -114,15 +114,15 @@ POST /v1/recommendations
    - Sugerencias de optimización
    - A/B test configs (experimental)
 
-5. University → Skillia Bridge
+5. University → OpenSkills Bridge
    - "Improve your OpenClaw" CTA panel
    - Skill recommendations personalizadas
-   - 1-click redirect to Skillia install page
+   - 1-click redirect to OpenSkills install page
 ```
 
 ---
 
-## 🔗 Integración University ↔ Skillia
+## 🔗 Integración University ↔ OpenSkills
 
 ### Flujo de Usuario
 
@@ -132,10 +132,10 @@ POST /v1/recommendations
 2. Recibe reporte: "Security: 65/100 — Missing AI governance checks"
    ↓
 3. Panel de recomendaciones:
-   "🔧 Install ai-governance-audit from Skillia to improve this score"
-   [View in Skillia] → redirect a /skills/skillia/ai-governance-audit
+   "🔧 Install ai-governance-audit from OpenSkills to improve this score"
+   [View in OpenSkills] → redirect a /skills/skillia/ai-governance-audit
    ↓
-4. Usuario compra skill en Skillia
+4. Usuario compra skill en OpenSkills
    ↓
 5. Instala con token desde Account page
    ↓
@@ -147,23 +147,23 @@ POST /v1/recommendations
 **Opción A (MVP sin SSO):**
 - University genera URL con context:
   `https://skillia.app/skills/skillia/gdpr-readiness-check?ref=university&issue=gdpr-compliance`
-- Skillia muestra banner: "Recommended by OpenClaw University"
-- Analytics: track conversión University → Skillia
+- OpenSkills muestra banner: "Recommended by OpenClaw University"
+- Analytics: track conversión University → OpenSkills
 
 **Opción B (con SSO):**
 - Login único entre ambas plataformas
-- University conoce skills compradas en Skillia
-- Skillia conoce audit history de University
+- University conoce skills compradas en OpenSkills
+- OpenSkills conoce audit history de University
 - Dashboard unificado (futuro)
 
 ---
 
 ## 🎨 Unificación de Diseño
 
-### Paleta de Colores (alinear con Skillia)
+### Paleta de Colores (alinear con OpenSkills)
 
 ```css
-/* Skillia palette (copiar exacto) */
+/* OpenSkills palette (copiar exacto) */
 --primary: emerald-600
 --secondary: blue-600
 --accent: amber-500
@@ -178,14 +178,14 @@ POST /v1/recommendations
 ### Componentes Compartidos
 
 **Crear en University:**
-- `<SkillCard>` — mismo diseño que Skillia
+- `<SkillCard>` — mismo diseño que OpenSkills
 - `<AuditBadge>` — con tier colors (free/pro/enterprise)
 - `<InstallPrompt>` — copy/paste commands iguales
 - `<Footer>` — mismo legal footer
 - `<Header>` — navegación coherente
 
 **Tailwind config:**
-- Copiar `tailwind.config.js` de Skillia
+- Copiar `tailwind.config.js` de OpenSkills
 - Usar mismas clases utilitarias
 - Mismo dark mode toggle
 
@@ -193,7 +193,7 @@ POST /v1/recommendations
 
 ## 💰 Modelo de Negocio Refactorizado
 
-### Tiers (alineados con Skillia)
+### Tiers (alineados con OpenSkills)
 
 | Tier | Precio | Incluye |
 |------|--------|---------|
@@ -204,10 +204,10 @@ POST /v1/recommendations
 ### Revenue Streams
 
 1. **Suscripciones University** (49€/mes Pro)
-2. **Affiliate commission de Skillia:**
-   - University recomienda skill → usuario compra en Skillia
+2. **Affiliate commission de OpenSkills:**
+   - University recomienda skill → usuario compra en OpenSkills
    - University cobra 20% de la primera venta
-3. **Bundle University + Skillia:**
+3. **Bundle University + OpenSkills:**
    - 79€/mes (ahorro vs 98€ separado)
    - Cross-sell natural
 
@@ -218,24 +218,24 @@ POST /v1/recommendations
 ### Phase 1: Foundation (1 semana)
 - [x] Backend ya tiene audits + validations
 - [ ] Añadir endpoints `/health-check` y `/recommendations`
-- [ ] Crear skill-bridge service (link a Skillia API)
-- [ ] Unificar Tailwind config con Skillia
+- [ ] Crear skill-bridge service (link a OpenSkills API)
+- [ ] Unificar Tailwind config con OpenSkills
 
 ### Phase 2: UI Refactor (1 semana)
-- [ ] Rediseñar Dashboard con Skillia palette
+- [ ] Rediseñar Dashboard con OpenSkills palette
 - [ ] Crear Health Dashboard (nueva landing)
 - [ ] Skills Manager con recommendations
 - [ ] Footer/Header alineados
 
 ### Phase 3: Integration (1 semana)
-- [ ] University → Skillia deep links con context
-- [ ] Skillia muestra "Recommended by University" badge
+- [ ] University → OpenSkills deep links con context
+- [ ] OpenSkills muestra "Recommended by University" badge
 - [ ] Analytics: track conversiones cross-platform
 - [ ] Testing E2E del funnel completo
 
 ### Phase 4: Advanced (futuro)
 - [ ] Auto-repair automático de issues comunes
-- [ ] SSO entre University y Skillia
+- [ ] SSO entre University y OpenSkills
 - [ ] Dashboard unificado
 - [ ] API pública para third-party integrations
 
@@ -277,9 +277,9 @@ export async function recommendationsRoute(app: FastifyInstance) {
 }
 ```
 
-2. **Copiar paleta Skillia a University:**
+2. **Copiar paleta OpenSkills a University:**
 ```bash
-# Copiar tailwind.config.js de Skillia a University
+# Copiar tailwind.config.js de OpenSkills a University
 cp ~/Desktop/PROYECTOS/activos/openclaw-skills-registry/frontend/tailwind.config.js \
    ~/Desktop/PROYECTOS/activos/university/dashboard/
 ```
@@ -290,7 +290,7 @@ cp ~/Desktop/PROYECTOS/activos/openclaw-skills-registry/frontend/tailwind.config
 <div className="mt-8 rounded-xl border border-blue-200 bg-blue-50 p-6">
   <h3 className="font-semibold text-blue-900">Improve Your Score</h3>
   <p className="mt-2 text-sm text-slate-600">
-    Install these skills from Skillia to address detected issues:
+    Install these skills from OpenSkills to address detected issues:
   </p>
   <div className="mt-4 space-y-3">
     {recommendations.map(rec => (
@@ -312,9 +312,9 @@ cp ~/Desktop/PROYECTOS/activos/openclaw-skills-registry/frontend/tailwind.config
 - % de issues auto-reparados
 - Avg audit score improvement over time
 
-**Para el Funnel University → Skillia:**
+**Para el Funnel University → OpenSkills:**
 - Click-through rate en recommendations
-- Conversion rate University → Skillia purchase
+- Conversion rate University → OpenSkills purchase
 - Revenue de affiliate commission
 
 **Para el Bundle:**
@@ -325,22 +325,22 @@ cp ~/Desktop/PROYECTOS/activos/openclaw-skills-registry/frontend/tailwind.config
 
 ## 🚀 Valor Único
 
-**¿Por qué University + Skillia juntos son más fuertes?**
+**¿Por qué University + OpenSkills juntos son más fuertes?**
 
 1. **Circle completo:**
    - University detecta el problema
-   - Skillia vende la solución (skill)
+   - OpenSkills vende la solución (skill)
    - University valida que funcionó (re-audit)
 
 2. **Trust loop:**
    - University es neutro (auditor)
    - Recomienda skills basadas en datos reales
-   - Skillia gana credibilidad por asociación
+   - OpenSkills gana credibilidad por asociación
 
 3. **Upsell natural:**
    - Free user en University → ve valor → upgrade Pro
-   - Pro user en University → necesita skill → compra en Skillia
-   - Skillia user → quiere validar → audita en University
+   - Pro user en University → necesita skill → compra en OpenSkills
+   - OpenSkills user → quiere validar → audita en University
 
 ---
 

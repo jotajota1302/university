@@ -1,14 +1,41 @@
 # OpenClaw University
 
-> Plataforma de auditoría y validación de agentes IA OpenClaw
+> **Especializa tu agente OpenClaw en 48h con carreras certificadas**
+
+🎓 Carreras completas de skills curadas + Certificación oficial + Actualizaciones continuas
+
+---
+
+## 🚀 Nuevo Modelo: Carreras
+
+**University 2.0** transforma instancias OpenClaw en especialistas certificados mediante carreras completas.
+
+### ¿Qué es una Carrera?
+
+1. **8-12 skills curadas** de OpenSkills Registry
+2. **Conexión automática** entre tu instancia y OpenSkills
+3. **Certificación oficial** al completar
+4. **Actualizaciones** continuas de skills
+
+### Carreras Disponibles (MVP)
+
+- **Marketing Pro** (149€/mes) — 8 skills de SEO, contenido, CRO, ads
+- **Sales Accelerator** (149€/mes) — 8 skills de pipeline, prospección, scoring
+- **DevOps Engineer** (199€/mes) — 10 skills de CI/CD, observability, security
+
+Ver [CAREERS-MODEL.md](./CAREERS-MODEL.md) para detalles completos.
+
+---
 
 ## 📦 Monorepo Structure
 
 ```
 university/
-├── api/          # Backend API (Fastify + Prisma + PostgreSQL)
-├── dashboard/    # Frontend Dashboard (React + Vite + Tailwind)
-└── README.md     # This file
+├── api/               # Backend API (Fastify + Prisma + PostgreSQL)
+├── dashboard/         # Frontend Dashboard (React + Vite + Tailwind)
+├── CAREERS-MODEL.md   # Nuevo modelo de negocio (carreras)
+├── VISION-2026.md     # Vision anterior (taller/mecánico)
+└── README.md          # This file
 ```
 
 ---
@@ -22,16 +49,12 @@ npm install
 npm run dev
 ```
 
-Ver [api/README.md](./api/README.md) para documentación completa de la API.
-
 ### Dashboard
 ```bash
 cd dashboard
 npm install
 npm run dev
 ```
-
-Ver [dashboard/README.md](./dashboard/README.md) para documentación del frontend.
 
 ---
 
@@ -45,41 +68,18 @@ Ver [dashboard/README.md](./dashboard/README.md) para documentación del fronten
 
 ## 🛠️ Tech Stack
 
-**Backend (API):**
-- Fastify
-- TypeScript
-- Prisma ORM
-- PostgreSQL (Supabase)
-- Vitest
-
-**Frontend (Dashboard):**
-- React
-- TypeScript
-- Vite
-- Tailwind CSS
-- React Router
+**Backend:** Fastify + TypeScript + Prisma + PostgreSQL (Supabase) + Vitest  
+**Frontend:** React + TypeScript + Vite + Tailwind + React Router
 
 ---
 
 ## 📚 Documentation
 
+- [Careers Model (NEW)](./CAREERS-MODEL.md) — Modelo de carreras certificadas
+- [Vision 2026](./VISION-2026.md) — Vision anterior (taller/mecánico)
 - [API Documentation](./api/README.md)
 - [Dashboard Documentation](./dashboard/README.md)
-- [Privacy Policy](./api/PRIVACY_POLICY.md)
-- [Features](./api/FEATURES.md)
 
 ---
 
-## 🧪 Testing
-
-```bash
-# API tests
-cd api && npm test
-
-# Dashboard (no tests yet)
-cd dashboard && npm run build
-```
-
----
-
-**Made with ❤️ for OpenClaw**
+**🎓 University 2.0: De auditorías a especialización**

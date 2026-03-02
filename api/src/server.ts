@@ -7,6 +7,7 @@ import { validationsRoute } from './routes/validations';
 import { billingRoutes } from './routes/billing';
 import { auditsRoutes } from './routes/audits';
 import { recommendationsRoute } from './routes/recommendations';
+import { preRegistrationsRoutes } from './routes/pre-registrations';
 
 export function buildApp() {
   const app = Fastify({
@@ -21,6 +22,7 @@ export function buildApp() {
   app.register(billingRoutes);
   app.register(auditsRoutes);
   app.register(recommendationsRoute);
+  app.register(preRegistrationsRoutes);
 
   return app;
 }

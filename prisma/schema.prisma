@@ -52,3 +52,12 @@ model Validation {
 
   @@schema("university")
 }
+
+model PreRegistration {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  career    String
+  createdAt DateTime @default(now())
+
+  @@schema("university")
+}

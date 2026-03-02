@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from './components/Layout';
+import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { Dashboard } from './pages/Dashboard';
 import { NewAudit } from './pages/NewAudit';
@@ -16,8 +17,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+        <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
         <Route path="/audit/new" element={<PrivateRoute><NewAudit /></PrivateRoute>} />
         <Route path="/audit/:id" element={<PrivateRoute><AuditResult /></PrivateRoute>} />
         <Route path="/validations/:id" element={<PrivateRoute><ValidationView /></PrivateRoute>} />
