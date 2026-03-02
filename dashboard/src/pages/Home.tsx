@@ -112,7 +112,7 @@ export function Home() {
             </p>
             
             <h1 className="mt-6 text-balance text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
-              Especializa tu Agente OpenClaw en 48 horas
+              Especializa tu Agente OpenClaw con Carreras Certificadas
             </h1>
             
             <p className="mt-6 max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg">
@@ -155,7 +155,7 @@ export function Home() {
             <div className="mt-8 grid gap-3">
               <div className="rounded-xl border border-white/10 bg-white/5 p-3">
                 <p className="text-xs uppercase tracking-[0.1em] text-slate-400">Time to specialist</p>
-                <p className="mt-1 text-base font-semibold text-slate-100">48 horas</p>
+                <p className="mt-1 text-base font-semibold text-slate-100">A tu ritmo</p>
               </div>
               <div className="rounded-xl border border-white/10 bg-white/5 p-3">
                 <p className="text-xs uppercase tracking-[0.1em] text-slate-400">Carreras disponibles</p>
