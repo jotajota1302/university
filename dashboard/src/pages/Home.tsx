@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { ArrowRight, CheckCircle2, Zap, Link2, Cpu, Trophy } from 'lucide-react';
 
 const careers = [
   {
@@ -30,6 +31,33 @@ const careers = [
   }
 ];
 
+const flowSteps = [
+  {
+    num: 1,
+    title: 'Elige Carrera',
+    desc: 'Selecciona la especialización que necesitas',
+    icon: Zap,
+  },
+  {
+    num: 2,
+    title: 'Conecta OpenClaw',
+    desc: 'Tu instancia se conecta a OpenSkills',
+    icon: Link2,
+  },
+  {
+    num: 3,
+    title: 'Instala Skills',
+    desc: '8-10 skills curadas automáticamente',
+    icon: Cpu,
+  },
+  {
+    num: 4,
+    title: 'Obtén Certificación',
+    desc: 'Badge oficial verificable',
+    icon: Trophy,
+  },
+];
+
 export function Home() {
   const [email, setEmail] = useState('');
   const [career, setCareer] = useState('marketing-pro');
@@ -59,191 +87,218 @@ export function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white">
+    <div className="min-h-screen bg-slate-950 text-slate-100">
       {/* Header */}
-      <header className="border-b border-slate-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">🎓</span>
-            <span className="font-bold text-xl text-slate-900">OpenClaw University</span>
-          </div>
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/75 backdrop-blur-xl">
+        <nav className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+          <a href="#top" className="text-sm font-semibold tracking-[0.08em] text-slate-100">
+            🎓 OPENCLAW UNIVERSITY
+          </a>
           <a
             href="/login"
-            className="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 transition"
+            className="rounded-lg border border-white/10 px-4 py-2 text-sm font-medium text-slate-300 hover:border-lime-300/50 hover:text-lime-300 transition"
           >
             Login
           </a>
-        </div>
+        </nav>
       </header>
 
-      {/* Hero */}
-      <section className="py-24 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-sm font-medium mb-6">
-            <span>✨</span>
-            <span>Launching Q2 2026</span>
-          </div>
-          
-          <h1 className="text-5xl md:text-6xl font-bold text-slate-900 leading-tight mb-6">
-            Especializa tu Agente OpenClaw<br />
-            <span className="text-emerald-600">en 48 horas</span>
-          </h1>
-          
-          <p className="text-xl text-slate-600 mb-12 max-w-2xl mx-auto">
-            Carreras certificadas que transforman tu instancia en un especialista. 
-            Skills curadas + Certificación oficial + Actualizaciones continuas.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="#careers"
-              className="px-8 py-4 rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-700 transition shadow-lg shadow-emerald-600/30"
-            >
-              Ver Carreras
-            </a>
-            <a
-              href="#pre-registro"
-              className="px-8 py-4 rounded-lg border-2 border-slate-300 text-slate-700 font-semibold hover:border-slate-400 hover:bg-slate-50 transition"
-            >
-              Pre-registro
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* How it Works */}
-      <section className="py-16 px-6 bg-slate-50">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12 text-slate-900">Cómo Funciona</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {[
-              { num: 1, title: 'Elige Carrera', desc: 'Selecciona la especialización que necesitas', icon: '🎯' },
-              { num: 2, title: 'Conecta OpenClaw', desc: 'Tu instancia se conecta a OpenSkills', icon: '🔗' },
-              { num: 3, title: 'Instala Skills', desc: '8-10 skills curadas automáticamente', icon: '⚡' },
-              { num: 4, title: 'Obtén Certificación', desc: 'Badge oficial verificable', icon: '🏆' }
-            ].map((step) => (
-              <div key={step.num} className="text-center">
-                <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto mb-4">
-                  {step.icon}
-                </div>
-                <div className="text-sm text-emerald-600 font-semibold mb-2">Paso {step.num}</div>
-                <h3 className="font-bold text-slate-900 mb-2">{step.title}</h3>
-                <p className="text-sm text-slate-600">{step.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Careers */}
-      <section id="careers" className="py-16 px-6">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-4 text-slate-900">Carreras Disponibles</h2>
-          <p className="text-center text-slate-600 mb-12 max-w-2xl mx-auto">
-            Paquetes completos de skills curadas por expertos. Mejor precio que comprar individualmente.
-          </p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {careers.map((c) => (
-              <div key={c.id} className="rounded-xl border border-slate-200 bg-white p-6 hover:shadow-xl hover:border-emerald-300 transition">
-                <div className="text-4xl mb-4">{c.icon}</div>
-                <h3 className="text-xl font-bold text-slate-900 mb-2">{c.name}</h3>
-                <div className="text-2xl font-bold text-emerald-600 mb-4">{c.price}</div>
-                <p className="text-sm text-slate-600 mb-4">{c.description}</p>
-                
-                <div className="mb-4">
-                  <div className="text-xs text-slate-500 mb-2">{c.skills} skills incluidas:</div>
-                  <ul className="space-y-1">
-                    {c.highlights.slice(0, 3).map((h, i) => (
-                      <li key={i} className="text-xs text-slate-600 flex items-start gap-2">
-                        <span className="text-emerald-600">✓</span>
-                        <span>{h}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <button className="w-full px-4 py-2 rounded-lg bg-slate-100 text-slate-700 font-medium hover:bg-slate-200 transition text-sm">
-                  Más info
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Pre-registro */}
-      <section id="pre-registro" className="py-16 px-6 bg-slate-50">
-        <div className="max-w-xl mx-auto">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">Reserva tu Plaza</h2>
-            <p className="text-slate-600">
-              Primeros 20 inscritos: <span className="font-semibold text-emerald-600">50% descuento</span> el primer mes
+      <main id="top" className="relative">
+        {/* Hero */}
+        <section className="mx-auto grid w-full max-w-6xl gap-12 px-4 pb-16 pt-14 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16 lg:px-8 lg:pt-24">
+          <div>
+            <p className="inline-flex items-center gap-2 rounded-full border border-lime-300/30 bg-lime-300/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.15em] text-lime-200">
+              ✨ Launching Q2 2026
             </p>
+            
+            <h1 className="mt-6 text-balance text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
+              Especializa tu Agente OpenClaw en 48 horas
+            </h1>
+            
+            <p className="mt-6 max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg">
+              Carreras certificadas que transforman tu instancia en un especialista. 
+              Skills curadas + Certificación oficial + Actualizaciones continuas.
+            </p>
+
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <a
+                href="#careers"
+                className="inline-flex items-center gap-2 rounded-lg bg-lime-300 px-6 py-3 text-sm font-semibold text-slate-950 hover:bg-lime-400 transition shadow-lg shadow-lime-300/30"
+              >
+                Ver Carreras
+                <ArrowRight size={18} />
+              </a>
+              <a
+                href="#pre-registro"
+                className="inline-flex items-center gap-2 rounded-lg border border-white/10 px-6 py-3 text-sm font-medium text-slate-300 hover:border-lime-300/50 hover:text-lime-300 transition"
+              >
+                Pre-registro
+              </a>
+            </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-slate-200 p-8 shadow-lg">
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Email</label>
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  placeholder="tu@email.com"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Carrera de interés</label>
-                <select
-                  value={career}
-                  onChange={(e) => setCareer(e.target.value)}
-                  className="w-full px-4 py-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                >
-                  <option value="marketing-pro">Marketing Pro</option>
-                  <option value="sales-accelerator">Sales Accelerator</option>
-                  <option value="devops-engineer">DevOps Engineer</option>
-                </select>
-              </div>
-
-              <button
-                type="submit"
-                disabled={status === 'loading'}
-                className="w-full px-6 py-3 rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-700 disabled:bg-slate-300 transition"
-              >
-                {status === 'loading' ? 'Enviando...' : 'Reserva tu Plaza'}
-              </button>
-
-              {status === 'success' && (
-                <div className="p-4 rounded-lg bg-emerald-50 text-emerald-700 text-sm">
-                  {message}
-                </div>
-              )}
-
-              {status === 'error' && (
-                <div className="p-4 rounded-lg bg-red-50 text-red-700 text-sm">
-                  {message}
-                </div>
-              )}
+          <aside className="rounded-xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
+            <p className="text-sm uppercase tracking-[0.15em] text-slate-300">Propuesta de valor</p>
+            <div className="mt-5 space-y-4">
+              {[
+                'Paquetes coherentes de 8-12 skills por vertical',
+                'Certificación oficial verificable',
+                'Mejor precio que comprar skills individualmente',
+              ].map((item) => (
+                <p key={item} className="flex gap-3 text-sm leading-relaxed text-slate-200">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-lime-300" />
+                  {item}
+                </p>
+              ))}
             </div>
-          </form>
-        </div>
-      </section>
+            
+            <div className="mt-8 grid gap-3">
+              <div className="rounded-xl border border-white/10 bg-white/5 p-3">
+                <p className="text-xs uppercase tracking-[0.1em] text-slate-400">Time to specialist</p>
+                <p className="mt-1 text-base font-semibold text-slate-100">48 horas</p>
+              </div>
+              <div className="rounded-xl border border-white/10 bg-white/5 p-3">
+                <p className="text-xs uppercase tracking-[0.1em] text-slate-400">Carreras disponibles</p>
+                <p className="mt-1 text-base font-semibold text-slate-100">3 (Marketing, Sales, DevOps)</p>
+              </div>
+            </div>
+          </aside>
+        </section>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-200 py-12 px-6">
-        <div className="max-w-6xl mx-auto text-center text-sm text-slate-600">
-          <p className="mb-4">
-            OpenClaw University · Powered by{' '}
-            <a href="https://openskills.app" className="text-emerald-600 hover:underline">OpenSkills</a>
-          </p>
-          <p>© 2026 OpenClaw University. Todos los derechos reservados.</p>
-        </div>
-      </footer>
+        {/* How it Works */}
+        <section className="border-t border-white/10 py-16">
+          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <span className="text-xs uppercase tracking-[0.14em] text-sky-300">Cómo funciona</span>
+              <h2 className="mt-4 text-3xl font-semibold text-white">Un flujo simple de idea a certificación</h2>
+            </div>
+            
+            <div className="mt-8 grid gap-4 lg:grid-cols-4">
+              {flowSteps.map((step) => (
+                <article key={step.num} className="rounded-xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm">
+                  <step.icon className="h-7 w-7 text-sky-300" />
+                  <div className="mt-2 text-sm text-sky-300 font-semibold">Paso {step.num}</div>
+                  <h3 className="mt-2 font-bold text-white">{step.title}</h3>
+                  <p className="mt-2 text-sm text-slate-300">{step.desc}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Careers */}
+        <section id="careers" className="border-t border-white/10 py-16">
+          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <span className="text-xs uppercase tracking-[0.14em] text-lime-300">Carreras disponibles</span>
+              <h2 className="mt-4 text-3xl font-semibold text-white">Especializa tu instancia en tu vertical</h2>
+              <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-slate-300">
+                Paquetes completos de skills curadas por expertos. Mejor precio que comprar individualmente en OpenSkills.
+              </p>
+            </div>
+            
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {careers.map((c) => (
+                <div key={c.id} className="rounded-xl border border-white/10 bg-white/5 p-6 hover:border-lime-300/50 transition backdrop-blur-sm">
+                  <div className="text-4xl mb-4">{c.icon}</div>
+                  <h3 className="text-xl font-bold text-white">{c.name}</h3>
+                  <div className="mt-2 text-2xl font-bold text-lime-300">{c.price}</div>
+                  <p className="mt-3 text-sm text-slate-400">{c.description}</p>
+                  
+                  <div className="mt-4 mb-4">
+                    <div className="text-xs text-slate-500 mb-2">{c.skills} skills incluidas:</div>
+                    <ul className="space-y-1">
+                      {c.highlights.slice(0, 3).map((h, i) => (
+                        <li key={i} className="text-xs text-slate-300 flex items-start gap-2">
+                          <span className="text-lime-300">✓</span>
+                          <span>{h}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <code className="block rounded-lg border border-white/10 bg-slate-900/80 px-3 py-2 text-xs text-lime-200 font-mono">
+                    university enroll {c.id}
+                  </code>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Pre-registro */}
+        <section id="pre-registro" className="border-t border-white/10 py-16">
+          <div className="mx-auto w-full max-w-xl px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-8">
+              <span className="text-xs uppercase tracking-[0.12em] text-slate-400">Siguiente paso</span>
+              <h2 className="mt-3 text-3xl font-semibold text-white">Reserva tu Plaza</h2>
+              <p className="mt-3 text-slate-300">
+                Primeros 20 inscritos: <span className="font-semibold text-lime-300">50% descuento</span> el primer mes
+              </p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="rounded-xl border border-white/10 bg-white/5 p-8 shadow-lg backdrop-blur-sm">
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">Email</label>
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full px-4 py-2 rounded-lg border border-white/10 bg-slate-900/50 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-lime-300/50 focus:border-lime-300/50"
+                    placeholder="tu@email.com"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-300 mb-2">Carrera de interés</label>
+                  <select
+                    value={career}
+                    onChange={(e) => setCareer(e.target.value)}
+                    className="w-full px-4 py-2 rounded-lg border border-white/10 bg-slate-900/50 text-slate-100 focus:outline-none focus:ring-2 focus:ring-lime-300/50 focus:border-lime-300/50"
+                  >
+                    <option value="marketing-pro">Marketing Pro</option>
+                    <option value="sales-accelerator">Sales Accelerator</option>
+                    <option value="devops-engineer">DevOps Engineer</option>
+                  </select>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={status === 'loading'}
+                  className="w-full px-6 py-3 rounded-lg bg-lime-300 text-slate-950 font-semibold hover:bg-lime-400 disabled:bg-slate-700 disabled:text-slate-500 transition shadow-lg shadow-lime-300/30"
+                >
+                  {status === 'loading' ? 'Enviando...' : 'Reserva tu Plaza'}
+                </button>
+
+                {status === 'success' && (
+                  <div className="p-4 rounded-lg border border-lime-300/30 bg-lime-300/10 text-lime-200 text-sm">
+                    {message}
+                  </div>
+                )}
+
+                {status === 'error' && (
+                  <div className="p-4 rounded-lg border border-red-400/30 bg-red-400/10 text-red-200 text-sm">
+                    {message}
+                  </div>
+                )}
+              </div>
+            </form>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="border-t border-white/10 py-12 px-6">
+          <div className="mx-auto max-w-6xl text-center text-sm text-slate-400">
+            <p className="mb-4">
+              OpenClaw University · Powered by{' '}
+              <a href="https://openskills.app" className="text-lime-300 hover:underline">OpenSkills</a>
+            </p>
+            <p>© 2026 OpenClaw University. Todos los derechos reservados.</p>
+          </div>
+        </footer>
+      </main>
     </div>
   );
 }
