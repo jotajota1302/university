@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react';
 import { ArrowRight, CheckCircle2, Zap, Link2, Cpu, Trophy, Moon, Sun } from 'lucide-react';
 import { useTheme } from '../store/theme';
+import { LegalModal } from '../components/LegalModal';
 
 const careers = [
   {
     id: 'marketing-pro',
     name: 'Grado en Marketing Digital',
     icon: '🎯',
-    price: '1.490€',
-    regularPrice: '1.790€',
-    deposit: '100€',
-    remaining: '1.390€',
-    skills: 8,
+    price: '590€',
+    regularPrice: '790€',
+    deposit: '99€',
+    remaining: '491€',
+    skills: 12,
     available: true,
     startDate: '16 marzo 2026',
     description: 'SEO, contenido, CRO, ads, email marketing',
@@ -21,11 +22,11 @@ const careers = [
     id: 'sales-accelerator',
     name: 'Grado en Desarrollo de Negocio',
     icon: '💼',
-    price: '1.690€',
-    regularPrice: '1.990€',
-    deposit: '100€',
-    remaining: '1.590€',
-    skills: 8,
+    price: '690€',
+    regularPrice: '890€',
+    deposit: '99€',
+    remaining: '591€',
+    skills: 12,
     available: false,
     description: 'Pipeline, prospección, scoring, CRM',
     highlights: ['Análisis de pipeline', 'Secuencias de prospección', 'Priorización de oportunidades', 'Análisis de competencia']
@@ -34,11 +35,11 @@ const careers = [
     id: 'devops-engineer',
     name: 'Grado en Ingeniería DevOps',
     icon: '🛠️',
-    price: '1.990€',
-    regularPrice: '2.490€',
-    deposit: '100€',
-    remaining: '1.890€',
-    skills: 10,
+    price: '790€',
+    regularPrice: '990€',
+    deposit: '99€',
+    remaining: '691€',
+    skills: 14,
     available: false,
     description: 'CI/CD, observability, security, IaC',
     highlights: ['Evaluación CI/CD', 'Monitoring setup', 'Security hardening', 'Cost optimization']
@@ -78,6 +79,8 @@ export function Home() {
   const [career, setCareer] = useState('marketing-pro');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [showLegalModal, setShowLegalModal] = useState(false);
 
   // Detectar si el usuario volvió de Stripe
   useEffect(() => {
@@ -98,6 +101,14 @@ export function Home() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validar que se hayan aceptado los términos
+    if (!acceptedTerms) {
+      setStatus('error');
+      setMessage('Debes aceptar los términos y condiciones para continuar.');
+      return;
+    }
+
     setStatus('loading');
 
     try {
@@ -155,7 +166,7 @@ export function Home() {
         <section className="mx-auto grid w-full max-w-6xl gap-12 px-4 pb-16 pt-14 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16 lg:px-8 lg:pt-24">
           <div>
             <p className="inline-flex items-center gap-2 rounded-full border border-emerald-300/30 dark:border-lime-300/30 bg-emerald-50 dark:bg-lime-300/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.15em] text-emerald-700 dark:text-lime-200">
-              🎓 Pre-order: Marketing Digital · 100€ · Inicio 16/03
+              🎓 Pre-order: Marketing Digital · 99€ · Inicio 16/03
             </p>
 
             <h1 className="mt-6 text-balance text-4xl font-bold leading-tight text-slate-900 dark:text-white sm:text-5xl lg:text-6xl">
@@ -172,7 +183,7 @@ export function Home() {
                 href="#pre-registro"
                 className="inline-flex items-center gap-2 rounded-lg bg-brand-red dark:bg-lime-300 px-6 py-3 text-sm font-semibold text-white dark:text-slate-950 hover:bg-brand-600 dark:hover:bg-lime-400 transition shadow-lg shadow-brand-red/30 dark:shadow-lime-300/30"
               >
-                Reservar con 100€
+                Reservar con 99€
                 <ArrowRight size={18} />
               </a>
               <a
@@ -188,7 +199,7 @@ export function Home() {
             <p className="text-sm uppercase tracking-[0.15em] text-slate-700 dark:text-slate-300">Por qué OpenClaw University</p>
             <div className="mt-5 space-y-4">
               {[
-                'Programas académicos completos de 8-12 asignaturas por especialidad',
+                'Programas académicos completos de 12-14 asignaturas por especialidad',
                 'Titulación oficial de OpenClaw University',
                 'Plan educativo más económico que cursos individuales',
               ].map((item) => (
@@ -329,9 +340,9 @@ export function Home() {
           <div className="mx-auto w-full max-w-xl px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-8">
               <span className="text-xs uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">Siguiente paso</span>
-              <h2 className="mt-3 text-3xl font-semibold text-slate-900 dark:text-white">Reserva tu Plaza con 100€</h2>
+              <h2 className="mt-3 text-3xl font-semibold text-slate-900 dark:text-white">Reserva tu Plaza con 99€</h2>
               <p className="mt-3 text-slate-600 dark:text-slate-300">
-                Asegura tu precio de primera promoción. Ahorra <span className="font-semibold text-brand-red dark:text-lime-300">300€</span> y sé parte de la historia de OpenClaw University.
+                Asegura tu precio de primera promoción. Ahorra <span className="font-semibold text-brand-red dark:text-lime-300">200€</span> y sé parte de la historia de OpenClaw University.
               </p>
             </div>
 
@@ -342,18 +353,18 @@ export function Home() {
                 <div className="font-semibold">Grado en Marketing Digital</div>
                 <div className="flex justify-between items-center pl-4 border-l-2 border-emerald-300 dark:border-lime-300/50">
                   <span>Matrícula completa:</span>
-                  <span className="font-bold">1.490€ <span className="text-xs line-through opacity-60">1.790€</span></span>
+                  <span className="font-bold">590€ <span className="text-xs line-through opacity-60">790€</span></span>
                 </div>
                 <div className="flex justify-between items-center pl-4 border-l-2 border-emerald-300 dark:border-lime-300/50">
                   <span>Adelanto hoy:</span>
-                  <span className="font-bold">100€</span>
+                  <span className="font-bold">99€</span>
                 </div>
                 <div className="flex justify-between items-center pl-4 border-l-2 border-emerald-300 dark:border-lime-300/50">
                   <span>Resto al inicio:</span>
-                  <span className="font-bold">1.390€ (antes del 16 marzo)</span>
+                  <span className="font-bold">491€ (antes del 16 marzo)</span>
                 </div>
                 <div className="mt-4 pt-3 border-t border-emerald-300 dark:border-lime-300/50 font-semibold text-emerald-900 dark:text-lime-200">
-                  💰 Ahorras 300€ vs. precio regular
+                  💰 Ahorras 200€ vs. precio regular
                 </div>
               </div>
             </div>
@@ -385,12 +396,34 @@ export function Home() {
                   </select>
                 </div>
 
+                {/* Checkbox de términos legales */}
+                <div className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    id="terms"
+                    checked={acceptedTerms}
+                    onChange={(e) => setAcceptedTerms(e.target.checked)}
+                    className="mt-1 h-4 w-4 rounded border-slate-300 dark:border-white/10 text-brand-red dark:text-lime-300 focus:ring-brand-red dark:focus:ring-lime-300"
+                  />
+                  <label htmlFor="terms" className="text-sm text-slate-600 dark:text-slate-300">
+                    Acepto los{' '}
+                    <button
+                      type="button"
+                      onClick={() => setShowLegalModal(true)}
+                      className="text-brand-red dark:text-lime-300 hover:underline font-semibold"
+                    >
+                      términos y condiciones, política de privacidad y LOPD
+                    </button>
+                    {' '}de OpenClaw University
+                  </label>
+                </div>
+
                 <button
                   type="submit"
-                  disabled={status === 'loading'}
+                  disabled={status === 'loading' || !acceptedTerms}
                   className="w-full px-6 py-3 rounded-lg bg-brand-red dark:bg-lime-300 text-white dark:text-slate-950 font-semibold hover:bg-brand-600 dark:hover:bg-lime-400 disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:text-slate-500 transition shadow-lg shadow-brand-red/30 dark:shadow-lime-300/30"
                 >
-                  {status === 'loading' ? 'Procesando...' : 'Pagar 100€ y Reservar Plaza'}
+                  {status === 'loading' ? 'Procesando...' : 'Pagar 99€ y Reservar Plaza'}
                 </button>
 
                 {status === 'success' && (
@@ -422,6 +455,15 @@ export function Home() {
           </div>
         </footer>
       </main>
+
+      {/* Modal de términos legales */}
+      <LegalModal
+        isOpen={showLegalModal}
+        onClose={() => {
+          setShowLegalModal(false);
+          setAcceptedTerms(true);
+        }}
+      />
     </div>
   );
 }

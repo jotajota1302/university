@@ -13,9 +13,9 @@ export async function checkoutRoutes(app: FastifyInstance): Promise<void> {
 
       // Mapeo de carreras a precios
       const careerPrices: Record<string, { name: string; deposit: number }> = {
-        'marketing-pro': { name: 'Grado en Marketing Digital', deposit: 10000 }, // 100.00 EUR en centavos
-        'sales-accelerator': { name: 'Grado en Desarrollo de Negocio', deposit: 10000 },
-        'devops-engineer': { name: 'Grado en Ingeniería DevOps', deposit: 10000 },
+        'marketing-pro': { name: 'Grado en Marketing Digital', deposit: 9900 }, // 99.00 EUR en centavos
+        'sales-accelerator': { name: 'Grado en Desarrollo de Negocio', deposit: 9900 },
+        'devops-engineer': { name: 'Grado en Ingeniería DevOps', deposit: 9900 },
       };
 
       const careerInfo = careerPrices[career];
