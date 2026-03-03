@@ -2,15 +2,8 @@ import 'dotenv/config';
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import { healthRoute } from './routes/health';
-import { authRoute } from './routes/auth';
-import { auditRoute } from './routes/audit';
-import { gdprRoute } from './routes/gdpr';
-import { validationsRoute } from './routes/validations';
-import { billingRoutes } from './routes/billing';
-import { auditsRoutes } from './routes/audits';
-import { recommendationsRoute } from './routes/recommendations';
-import { preRegistrationsRoutes } from './routes/pre-registrations';
 import { checkoutRoutes } from './routes/checkout';
+import { recommendationsRoute } from './routes/recommendations';
 
 export function buildApp() {
   const app = Fastify({
@@ -24,15 +17,8 @@ export function buildApp() {
   });
 
   app.register(healthRoute, { prefix: '/v1' });
-  app.register(authRoute, { prefix: '/v1' });
-  app.register(auditRoute, { prefix: '/v1' });
-  app.register(gdprRoute, { prefix: '/v1' });
-  app.register(validationsRoute, { prefix: '/v1' });
-  app.register(billingRoutes);
-  app.register(auditsRoutes);
-  app.register(recommendationsRoute);
-  app.register(preRegistrationsRoutes);
   app.register(checkoutRoutes);
+  app.register(recommendationsRoute);
 
   return app;
 }

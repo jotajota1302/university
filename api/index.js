@@ -1,8 +1,11 @@
 const { buildApp } = require('../dist/server');
 
-const app = buildApp();
+let app;
 
 module.exports = async (req, res) => {
-  await app.ready();
+  if (!app) {
+    app = buildApp();
+    await app.ready();
+  }
   app.server.emit('request', req, res);
 };
