@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowRight, CheckCircle2, Zap, Link2, Cpu, Trophy, Moon, Sun, Globe } from 'lucide-react';
-import { useTheme } from '../store/theme';
+import { ArrowRight, CheckCircle2, Zap, Link2, Cpu, Trophy, Globe } from 'lucide-react';
 import { useLang, t } from '../store/lang';
 import { LegalModal } from '../components/LegalModal';
 
@@ -18,7 +17,6 @@ const careerStartDate = ['16 marzo 2026', '', ''];
 const flowStepIcons = [Zap, Link2, Cpu, Trophy];
 
 export function Home() {
-  const { isDark, toggleTheme } = useTheme();
   const { lang, setLang } = useLang();
   const [email, setEmail] = useState('');
   const [career, setCareer] = useState('marketing-pro');
@@ -89,13 +87,6 @@ export function Home() {
             >
               <Globe size={14} />
               {lang === 'es' ? 'EN' : 'ES'}
-            </button>
-            <button
-              onClick={toggleTheme}
-              className="rounded-lg border border-slate-200 dark:border-white/10 p-2 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5 transition"
-              aria-label="Toggle theme"
-            >
-              {isDark ? <Sun size={18} /> : <Moon size={18} />}
             </button>
             <a
               href="#pre-registro"
