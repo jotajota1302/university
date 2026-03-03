@@ -15,13 +15,11 @@ const careerPrices = {
 };
 
 module.exports = async (req, res) => {
-  // CORS preflight
   if (req.method === 'OPTIONS') {
     res.writeHead(204, CORS_HEADERS);
     return res.end();
   }
 
-  // Set CORS headers
   Object.entries(CORS_HEADERS).forEach(([key, value]) => {
     res.setHeader(key, value);
   });
@@ -32,7 +30,6 @@ module.exports = async (req, res) => {
   }
 
   try {
-    // Parse body
     const chunks = [];
     for await (const chunk of req) {
       chunks.push(chunk);

@@ -5,7 +5,8 @@
       "Bash(npm install)",
       "Bash(npm install:*)",
       "Bash(taskkill:*)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Bash(tail:*)"
     ],
     "deny": [],
     "ask": []
