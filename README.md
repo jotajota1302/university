@@ -6,7 +6,7 @@
 
 ---
 
-## 🚀 Nuevo Modelo: Carreras
+## 🚀 Nuevo Modelo: Carreras + Preventa de Matriculaciones
 
 **University 2.0** transforma instancias OpenClaw en especialistas certificados mediante carreras completas.
 
@@ -24,6 +24,13 @@
 - **DevOps Engineer** (199€/mes) — 10 skills de CI/CD, observability, security
 
 Ver [CAREERS-MODEL.md](./CAREERS-MODEL.md) para detalles completos.
+
+### Plan inmediato (marzo 2026)
+
+- Lanzar **landing de preventa** para matriculaciones.
+- Vender plazas de cohorte fundadora mientras se terminan materias pendientes.
+- Entregar roadmap público por materias (estado: listo / en desarrollo / fecha estimada).
+- Convertir preventa en primera cohorte activa y usar feedback para cerrar contenido.
 
 ---
 

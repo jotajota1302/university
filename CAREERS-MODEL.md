@@ -79,21 +79,32 @@ Certificación: "OpenClaw Certified in Marketing"
 
 ## 🚀 Go-to-Market Strategy
 
-### Fase 1: Pre-Lanzamiento (2 semanas)
+### Fase 1: Preventa de Matriculaciones (2-3 semanas)
 
-**Objetivo:** 50 pre-registros
+**Objetivo:** validar demanda real y generar caja antes de cerrar todas las materias.
 
-1. Landing minimalista (Hero + carreras + form)
-2. Outreach directo (Edu + Discord + Twitter)
-3. Early bird: 50% descuento primeros 20
+1. **Landing de preventa** (Hero + carreras + pricing + FAQ + checkout/reserva)
+2. **Matrícula de reserva** (señal o pago anticipado con condiciones claras)
+3. **Cupo early adopter** (plazas limitadas + precio fundador)
+4. **Calendario transparente** de entrega por materias (qué está listo / qué entra en roadmap)
+5. **Captura de demanda cualificada** (form + intención + segmento)
 
-### Fase 2: Soft Launch (1 mes)
+### Fase 2: Cohorte Fundadora (4-6 semanas)
 
-**Objetivo:** 10 paying customers
+**Objetivo:** convertir precompras en primera cohorte activa mientras se completan materias pendientes.
 
-1. Convertir pre-registros
-2. Validar propuesta
-3. Iterar rápido
+1. Activar acceso a los bloques ya operativos
+2. Entregar materias faltantes por oleadas semanales
+3. Soporte cercano con feedback loop (Discord/Telegram)
+4. Publicar changelog de contenidos para mantener confianza
+
+### Fase 3: Lanzamiento General
+
+**Objetivo:** escalar con producto ya validado y contenido cerrado.
+
+1. Abrir matriculación estándar sin descuento fundador
+2. Automatizar onboarding y certificación
+3. Escalar adquisición con casos de éxito de la cohorte fundadora
 
 ---
 
