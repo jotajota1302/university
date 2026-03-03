@@ -6,7 +6,7 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "cd api && ts-node src/server.ts",
-    "build": "cd api && npm run build && rm -rf ../dist && cp -R dist ../dist",
+    "build": "cd api && npm install && npm run build && rm -rf ../dist && cp -R dist ../dist",
     "start": "node dist/server.js",
     "test": "cd api && npm test",
     "prisma:generate": "prisma generate",
