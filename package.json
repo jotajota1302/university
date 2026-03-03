@@ -3,20 +3,7 @@
   "version": "1.0.0",
   "description": "OpenClaw University Monorepo",
   "private": true,
-  "main": "dist/server.js",
-  "scripts": {
-    "dev": "cd api && ts-node src/server.ts",
-    "build": "cd api && npm install && npm run build && rm -rf ../dist && cp -R dist ../dist",
-    "start": "node dist/server.js",
-    "test": "cd api && npm test"
-  },
   "dependencies": {
-    "@types/node": "^20.19.33",
-    "fastify": "^4.28.1",
-    "typescript": "^5.9.3"
-  },
-  "devDependencies": {
-    "ts-node": "^10.9.2",
-    "vitest": "^2.1.4"
+    "stripe": "^20.4.0"
   }
 }
