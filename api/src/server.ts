@@ -1,4 +1,6 @@
+import 'dotenv/config';
 import Fastify from 'fastify';
+import cors from '@fastify/cors';
 import { healthRoute } from './routes/health';
 import { authRoute } from './routes/auth';
 import { auditRoute } from './routes/audit';
@@ -8,10 +10,17 @@ import { billingRoutes } from './routes/billing';
 import { auditsRoutes } from './routes/audits';
 import { recommendationsRoute } from './routes/recommendations';
 import { preRegistrationsRoutes } from './routes/pre-registrations';
+import { checkoutRoutes } from './routes/checkout';
 
 export function buildApp() {
   const app = Fastify({
     logger: process.env.NODE_ENV !== 'test',
+  });
+
+  // Configurar CORS
+  app.register(cors, {
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    credentials: true,
   });
 
   app.register(healthRoute, { prefix: '/v1' });
@@ -23,6 +32,7 @@ export function buildApp() {
   app.register(auditsRoutes);
   app.register(recommendationsRoute);
   app.register(preRegistrationsRoutes);
+  app.register(checkoutRoutes);
 
   return app;
 }

@@ -13,11 +13,14 @@
     "prisma:push": "prisma db push"
   },
   "dependencies": {
+    "@fastify/cors": "^11.2.0",
     "@prisma/client": "^5.22.0",
     "@types/node": "^20.19.33",
     "@types/uuid": "^10.0.0",
+    "dotenv": "^17.3.1",
     "fastify": "^4.28.1",
     "prisma": "^5.22.0",
+    "stripe": "^20.4.0",
     "typescript": "^5.9.3",
     "uuid": "^10.0.0"
   },
