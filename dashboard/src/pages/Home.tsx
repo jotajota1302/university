@@ -283,9 +283,9 @@ export function Home() {
               <span className="text-xs uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">{_('pre.label')}</span>
               <h2 className="mt-3 text-3xl font-semibold text-slate-900 dark:text-white">{_('pre.title')}</h2>
               <p className="mt-3 text-slate-600 dark:text-slate-300">
-                {_('pre.subtitle').replace('{save}', '')}
+                {_('pre.subtitle').split('{save}')[0]}
                 <span className="font-semibold text-brand-red dark:text-lime-300">{_('pre.save')}</span>
-                {_('pre.subtitle').split('{save}')[1] || ''}
+                {_('pre.subtitle').split('{save}')[1]}
               </p>
             </div>
 
