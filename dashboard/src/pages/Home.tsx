@@ -52,9 +52,12 @@ export function Home() {
     setStatus('loading');
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/v1/checkout/create-session`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/stripe-checkout`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
         body: JSON.stringify({ email, career })
       });
 
