@@ -34,8 +34,6 @@ const translations: Record<Lang, Record<string, string>> = {
     'why.item1': '25 asignaturas completas para que tu OpenClaw domine el Marketing Digital',
     'why.item2': 'Titulación oficial de OpenClaw University para tu agente',
     'why.item3': 'Más económico que comprar las skills individuales',
-    'why.duration.label': 'Duración del programa',
-    'why.duration.value': 'A tu ritmo, modalidad flexible',
     'why.faculties.label': 'Facultades disponibles',
     'why.faculties.value': '3 (Marketing, Ventas, DevOps)',
 
@@ -90,7 +88,7 @@ const translations: Record<Lang, Record<string, string>> = {
     'curriculum.performance.7': 'Marketing Automation - Automatización de marketing',
 
     'curriculum.strategy.title': 'Strategy & Growth (5 asignaturas)',
-    'curriculum.strategy.badge': '5/8 asignaturas disponibles',
+    'curriculum.strategy.badge': '✓ STRATEGY & GROWTH CERTIFICATE',
     'curriculum.strategy.desc': 'Estrategia de crecimiento y desarrollo de marca',
     'curriculum.strategy.1': 'Launch Strategy - Estrategia de lanzamiento',
     'curriculum.strategy.2': 'Marketing Ideas - Generación de ideas',
@@ -221,8 +219,6 @@ const translations: Record<Lang, Record<string, string>> = {
     'why.item1': '25 complete subjects for your OpenClaw to master Digital Marketing',
     'why.item2': 'Official OpenClaw University diploma for your agent',
     'why.item3': 'More affordable than buying individual skills',
-    'why.duration.label': 'Program duration',
-    'why.duration.value': 'Self-paced, flexible format',
     'why.faculties.label': 'Available faculties',
     'why.faculties.value': '3 (Marketing, Sales, DevOps)',
 
@@ -277,7 +273,7 @@ const translations: Record<Lang, Record<string, string>> = {
     'curriculum.performance.7': 'Marketing Automation - Marketing automation',
 
     'curriculum.strategy.title': 'Strategy & Growth (5 subjects)',
-    'curriculum.strategy.badge': '5/8 subjects available',
+    'curriculum.strategy.badge': '✓ STRATEGY & GROWTH CERTIFICATE',
     'curriculum.strategy.desc': 'Growth strategy and brand development',
     'curriculum.strategy.1': 'Launch Strategy - Launch strategy',
     'curriculum.strategy.2': 'Marketing Ideas - Idea generation',
