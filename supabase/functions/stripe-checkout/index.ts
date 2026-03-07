@@ -37,17 +37,17 @@ serve(async (req) => {
       'marketing-pro': {
         name: 'Grado en Marketing Digital',
         nameEn: 'Digital Marketing Degree',
-        deposit: 9900, // 99.00 EUR in cents
+        deposit: 2000, // 20.00 EUR in cents
       },
       'sales-accelerator': {
         name: 'Grado en Desarrollo de Negocio',
         nameEn: 'Business Development Degree',
-        deposit: 9900,
+        deposit: 2000,
       },
       'devops-engineer': {
         name: 'Grado en Ingeniería DevOps',
         nameEn: 'DevOps Engineering Degree',
-        deposit: 9900,
+        deposit: 2000,
       },
     };
 
