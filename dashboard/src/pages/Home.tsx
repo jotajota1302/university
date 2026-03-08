@@ -12,7 +12,7 @@ const careerDeposits = ['20€', '', ''];
 const careerRemaining = ['179,86€', '', ''];
 const careerSkills = [25, 12, 14];
 const careerAvailable = [true, false, false];
-const careerStartDate = ['16 marzo 2026', '', ''];
+const careerStartDate = ['20 marzo 2026', '', ''];
 
 const flowStepIcons = [Zap, Link2, Cpu, Trophy];
 
@@ -145,11 +145,7 @@ export function Home() {
               ))}
             </div>
 
-            <div className="mt-8 grid gap-3">
-              <div className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-3">
-                <p className="text-xs uppercase tracking-[0.1em] text-slate-500 dark:text-slate-400">{_('why.duration.label')}</p>
-                <p className="mt-1 text-base font-semibold text-slate-900 dark:text-slate-100">{_('why.duration.value')}</p>
-              </div>
+            <div className="mt-8">
               <div className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-3">
                 <p className="text-xs uppercase tracking-[0.1em] text-slate-500 dark:text-slate-400">{_('why.faculties.label')}</p>
                 <p className="mt-1 text-base font-semibold text-slate-900 dark:text-slate-100">{_('why.faculties.value')}</p>
