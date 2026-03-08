@@ -151,6 +151,19 @@ export function Home() {
                 <p className="mt-1 text-base font-semibold text-slate-900 dark:text-slate-100">{_('why.faculties.value')}</p>
               </div>
             </div>
+
+            <div className="mt-8">
+              <div className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-4 text-center">
+                <p className="text-xs uppercase tracking-[0.1em] text-slate-500 dark:text-slate-400 mb-2">{_('contact.title')}</p>
+                <p className="text-xs text-slate-600 dark:text-slate-300 mb-3">{_('contact.subtitle')}</p>
+                <a
+                  href="mailto:info@claw-university.com"
+                  className="inline-flex items-center gap-1.5 text-xs text-brand-red dark:text-lime-300 hover:underline font-medium"
+                >
+                  📧 info@claw-university.com
+                </a>
+              </div>
+            </div>
           </aside>
         </section>
 
@@ -509,6 +522,24 @@ export function Home() {
                 )}
               </div>
             </form>
+          </div>
+        </section>
+
+        {/* Contact Section */}
+        <section className="border-t border-slate-200 dark:border-white/10 py-12 bg-white dark:bg-transparent">
+          <div className="mx-auto w-full max-w-xl px-4 sm:px-6 lg:px-8 text-center">
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-3">
+              {_('contact.title')}
+            </h3>
+            <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">
+              {_('contact.subtitle')}
+            </p>
+            <a
+              href="mailto:info@claw-university.com"
+              className="inline-flex items-center gap-2 text-brand-red dark:text-lime-300 hover:underline font-medium text-sm"
+            >
+              📧 info@claw-university.com
+            </a>
           </div>
         </section>
 

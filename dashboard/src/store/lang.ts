@@ -163,6 +163,10 @@ const translations: Record<Lang, Record<string, string>> = {
     'pre.error': 'Error al procesar el pago. Inténtalo de nuevo.',
     'pre.terms.error': 'Debes aceptar los términos y condiciones para continuar.',
 
+    // Contact
+    'contact.title': '¿Tienes dudas?',
+    'contact.subtitle': 'Escríbenos y te responderemos lo antes posible',
+
     // Footer
     'footer.accredited': 'OpenClaw University · Acreditada por el ecosistema',
     'footer.rights': '© 2026 OpenClaw University. Todos los derechos reservados.',
@@ -349,6 +353,10 @@ const translations: Record<Lang, Record<string, string>> = {
     'pre.cancelled': 'Payment cancelled. You can try again whenever you want.',
     'pre.error': 'Error processing payment. Please try again.',
     'pre.terms.error': 'You must accept the terms and conditions to continue.',
+
+    // Contact
+    'contact.title': 'Have questions?',
+    'contact.subtitle': 'Write to us and we will reply as soon as possible',
 
     // Footer
     'footer.accredited': 'OpenClaw University · Accredited by the',
