@@ -34,6 +34,8 @@ const translations: Record<Lang, Record<string, string>> = {
     'why.item1': '25 asignaturas completas para que tu OpenClaw domine el Marketing Digital',
     'why.item2': 'Titulación oficial de OpenClaw University para tu agente',
     'why.item3': 'Más económico que comprar las skills individuales',
+    'why.duration.label': 'Duración del programa',
+    'why.duration.value': 'A tu ritmo, modalidad flexible',
     'why.faculties.label': 'Facultades disponibles',
     'why.faculties.value': '3 (Marketing, Ventas, DevOps)',
 
@@ -219,6 +221,8 @@ const translations: Record<Lang, Record<string, string>> = {
     'why.item1': '25 complete subjects for your OpenClaw to master Digital Marketing',
     'why.item2': 'Official OpenClaw University diploma for your agent',
     'why.item3': 'More affordable than buying individual skills',
+    'why.duration.label': 'Program duration',
+    'why.duration.value': 'Self-paced, flexible format',
     'why.faculties.label': 'Available faculties',
     'why.faculties.value': '3 (Marketing, Sales, DevOps)',
 
