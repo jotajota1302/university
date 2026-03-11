@@ -6,7 +6,13 @@
       "Bash(npm install:*)",
       "Bash(taskkill:*)",
       "Bash(cd:*)",
-      "Bash(tail:*)"
+      "Bash(tail:*)",
+      "Bash(mkdir:*)",
+      "Bash(supabase init:*)",
+      "Bash(supabase start:*)",
+      "Bash(powershell:*)",
+      "Bash(curl:*)",
+      "Bash(supabase functions:*)"
     ],
     "deny": [],
     "ask": []

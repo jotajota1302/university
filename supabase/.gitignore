@@ -1,0 +1,9 @@
+# Supabase
+.branches
+.temp
+.env
+.env.local
+
+# Functions
+functions/.env
+functions/.env.local

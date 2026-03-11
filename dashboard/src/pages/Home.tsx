@@ -6,13 +6,13 @@ import { LegalModal } from '../components/LegalModal';
 const careerIds = ['marketing-pro', 'sales-accelerator', 'devops-engineer'] as const;
 const careerKeys = ['marketing', 'sales', 'devops'] as const;
 const careerIcons = ['🎯', '💼', '🛠️'];
-const careerPrices = ['590€', '690€', '790€'];
-const careerRegularPrices = ['790€', '890€', '990€'];
-const careerDeposits = ['99€', '99€', '99€'];
-const careerRemaining = ['491€', '591€', '691€'];
-const careerSkills = [12, 12, 14];
+const careerPrices = ['199,86€', '', ''];
+const careerRegularPrices = ['399,86€', '', ''];
+const careerDeposits = ['20€', '', ''];
+const careerRemaining = ['179,86€', '', ''];
+const careerSkills = [25, 12, 14];
 const careerAvailable = [true, false, false];
-const careerStartDate = ['16 marzo 2026', '', ''];
+const careerStartDate = ['20 marzo 2026', '', ''];
 
 const flowStepIcons = [Zap, Link2, Cpu, Trophy];
 
@@ -54,7 +54,10 @@ export function Home() {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/stripe-checkout`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
         body: JSON.stringify({ email, career })
       });
 
@@ -142,14 +145,23 @@ export function Home() {
               ))}
             </div>
 
-            <div className="mt-8 grid gap-3">
-              <div className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-3">
-                <p className="text-xs uppercase tracking-[0.1em] text-slate-500 dark:text-slate-400">{_('why.duration.label')}</p>
-                <p className="mt-1 text-base font-semibold text-slate-900 dark:text-slate-100">{_('why.duration.value')}</p>
-              </div>
+            <div className="mt-8">
               <div className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-3">
                 <p className="text-xs uppercase tracking-[0.1em] text-slate-500 dark:text-slate-400">{_('why.faculties.label')}</p>
                 <p className="mt-1 text-base font-semibold text-slate-900 dark:text-slate-100">{_('why.faculties.value')}</p>
+              </div>
+            </div>
+
+            <div className="mt-8">
+              <div className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-4 text-center">
+                <p className="text-xs uppercase tracking-[0.1em] text-slate-500 dark:text-slate-400 mb-2">{_('contact.title')}</p>
+                <p className="text-xs text-slate-600 dark:text-slate-300 mb-3">{_('contact.subtitle')}</p>
+                <a
+                  href="mailto:info@claw-university.com"
+                  className="inline-flex items-center gap-1.5 text-xs text-brand-red dark:text-lime-300 hover:underline font-medium"
+                >
+                  📧 info@claw-university.com
+                </a>
               </div>
             </div>
           </aside>
@@ -212,11 +224,11 @@ export function Home() {
                     <div className="text-4xl mb-4">{careerIcons[i]}</div>
                     <h3 className="text-xl font-bold text-slate-900 dark:text-white">{_(`career.${key}`)}</h3>
 
-                    {available ? (
+                    {available && careerPrices[i] && (
                       <div className="mt-3">
                         <div className="flex items-baseline gap-2">
                           <span className="text-2xl font-bold text-brand-red dark:text-lime-300">{careerPrices[i]}</span>
-                          <span className="text-sm text-slate-400 line-through">{careerRegularPrices[i]}</span>
+                          {careerRegularPrices[i] && <span className="text-sm text-slate-400 line-through">{careerRegularPrices[i]}</span>}
                         </div>
                         <div className="mt-2 text-sm text-slate-600 dark:text-slate-400">
                           {_('careers.deposit')} <span className="font-semibold text-slate-900 dark:text-slate-100">{careerDeposits[i]}</span>
@@ -228,15 +240,10 @@ export function Home() {
                           {_('careers.start')} {careerStartDate[i]}
                         </div>
                       </div>
-                    ) : (
-                      <div className="mt-3">
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-2xl font-bold text-brand-red dark:text-lime-300">{careerPrices[i]}</span>
-                          <span className="text-sm text-slate-400 line-through">{careerRegularPrices[i]}</span>
-                        </div>
-                        <div className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-                          {_('careers.deposit2')} <span className="font-semibold text-slate-900 dark:text-slate-100">{careerDeposits[i]}</span>
-                        </div>
+                    )}
+                    {!available && (
+                      <div className="mt-3 text-sm text-slate-600 dark:text-slate-400 italic">
+                        Próximamente disponible
                       </div>
                     )}
 
@@ -276,8 +283,140 @@ export function Home() {
           </div>
         </section>
 
+        {/* Curriculum */}
+        <section id="curriculum" className="border-t border-slate-200 dark:border-white/10 py-16 bg-slate-50 dark:bg-transparent">
+          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <span className="text-xs uppercase tracking-[0.14em] text-purple-600 dark:text-purple-300">{_('curriculum.label')}</span>
+              <h2 className="mt-4 text-3xl font-semibold text-slate-900 dark:text-white">{_('curriculum.title')}</h2>
+              <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                {_('curriculum.subtitle')}
+              </p>
+            </div>
+
+            <div className="grid gap-6 lg:grid-cols-2">
+              {/* Foundation */}
+              <div className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-6 backdrop-blur-sm">
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">{_('curriculum.foundation.title')}</h3>
+                    <p className="text-xs text-emerald-600 dark:text-lime-300 font-semibold mt-1">{_('curriculum.foundation.badge')}</p>
+                  </div>
+                  <span className="text-2xl">📚</span>
+                </div>
+                <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">{_('curriculum.foundation.desc')}</p>
+                <ul className="space-y-2">
+                  {[1, 2, 3, 4, 5].map(i => (
+                    <li key={i} className="text-sm text-slate-700 dark:text-slate-200 flex items-start gap-2">
+                      <span className="text-emerald-600 dark:text-lime-300 mt-0.5">✓</span>
+                      <span>{_(`curriculum.foundation.${i}`)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Digital Essentials */}
+              <div className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-6 backdrop-blur-sm">
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">{_('curriculum.digital.title')}</h3>
+                    <p className="text-xs text-emerald-600 dark:text-lime-300 font-semibold mt-1">{_('curriculum.digital.badge')}</p>
+                  </div>
+                  <span className="text-2xl">💻</span>
+                </div>
+                <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">{_('curriculum.digital.desc')}</p>
+                <ul className="space-y-2">
+                  {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
+                    <li key={i} className="text-sm text-slate-700 dark:text-slate-200 flex items-start gap-2">
+                      <span className="text-cyan-600 dark:text-sky-300 mt-0.5">✓</span>
+                      <div className="flex-1">
+                        <span>{_(`curriculum.digital.${i}`)}</span>
+                        {i > 2 && <span className="ml-2 text-xs text-amber-600 dark:text-amber-400 font-semibold">PRO</span>}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Paid & Performance */}
+              <div className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-6 backdrop-blur-sm">
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">{_('curriculum.performance.title')}</h3>
+                    <p className="text-xs text-emerald-600 dark:text-lime-300 font-semibold mt-1">{_('curriculum.performance.badge')}</p>
+                  </div>
+                  <span className="text-2xl">📊</span>
+                </div>
+                <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">{_('curriculum.performance.desc')}</p>
+                <ul className="space-y-2">
+                  {[1, 2, 3, 4, 5, 6, 7].map(i => (
+                    <li key={i} className="text-sm text-slate-700 dark:text-slate-200 flex items-start gap-2">
+                      <span className="text-purple-600 dark:text-purple-300 mt-0.5">✓</span>
+                      <div className="flex-1">
+                        <span>{_(`curriculum.performance.${i}`)}</span>
+                        {i <= 4 && <span className="ml-2 text-xs text-amber-600 dark:text-amber-400 font-semibold">PRO</span>}
+                        {i > 4 && <span className="ml-2 text-xs text-purple-600 dark:text-purple-300 font-semibold">ENTERPRISE</span>}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Strategy & Growth */}
+              <div className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-6 backdrop-blur-sm">
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">{_('curriculum.strategy.title')}</h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold mt-1">{_('curriculum.strategy.badge')}</p>
+                  </div>
+                  <span className="text-2xl">🚀</span>
+                </div>
+                <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">{_('curriculum.strategy.desc')}</p>
+                <ul className="space-y-2">
+                  {[1, 2, 3, 4, 5].map(i => (
+                    <li key={i} className="text-sm text-slate-700 dark:text-slate-200 flex items-start gap-2">
+                      <span className="text-orange-600 dark:text-orange-300 mt-0.5">✓</span>
+                      <div className="flex-1">
+                        <span>{_(`curriculum.strategy.${i}`)}</span>
+                        {i > 2 && <span className="ml-2 text-xs text-amber-600 dark:text-amber-400 font-semibold">PRO</span>}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-8 p-6 rounded-xl border border-brand-red/30 dark:border-lime-300/30 bg-brand-red/5 dark:bg-lime-300/5">
+              <div className="flex items-start gap-4">
+                <div className="text-3xl">💰</div>
+                <div className="flex-1">
+                  <h3 className="font-bold text-slate-900 dark:text-white mb-2">{_('curriculum.pricing.title')}</h3>
+                  <div className="grid gap-2 text-sm">
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-600 dark:text-slate-300">{_('curriculum.pricing.free')}</span>
+                      <span className="font-semibold text-slate-900 dark:text-slate-100">11 × 0€ = 0€</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-600 dark:text-slate-300">{_('curriculum.pricing.pro')}</span>
+                      <span className="font-semibold text-slate-900 dark:text-slate-100">11 × 9,99€ = 109,89€</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-600 dark:text-slate-300">{_('curriculum.pricing.enterprise')}</span>
+                      <span className="font-semibold text-slate-900 dark:text-slate-100">3 × 29,99€ = 89,97€</span>
+                    </div>
+                    <div className="pt-3 mt-3 border-t border-brand-red/20 dark:border-lime-300/20 flex justify-between items-center">
+                      <span className="font-bold text-brand-red dark:text-lime-300">{_('curriculum.pricing.total')}</span>
+                      <span className="text-2xl font-bold text-brand-red dark:text-lime-300">199,86€</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Pre-registro */}
-        <section id="pre-registro" className="border-t border-slate-200 dark:border-white/10 py-16 bg-slate-50 dark:bg-transparent">
+        <section id="pre-registro" className="border-t border-slate-200 dark:border-white/10 py-16 bg-white dark:bg-transparent">
           <div className="mx-auto w-full max-w-xl px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-8">
               <span className="text-xs uppercase tracking-[0.12em] text-slate-500 dark:text-slate-400">{_('pre.label')}</span>
@@ -296,11 +435,11 @@ export function Home() {
                 <div className="font-semibold">{_('pre.breakdown.career')}</div>
                 <div className="flex justify-between items-center pl-4 border-l-2 border-emerald-300 dark:border-lime-300/50">
                   <span>{_('pre.breakdown.full')}</span>
-                  <span className="font-bold">590€ <span className="text-xs line-through opacity-60">790€</span></span>
+                  <span className="font-bold">199,86€ <span className="text-xs line-through opacity-60">399,86€</span></span>
                 </div>
                 <div className="flex justify-between items-center pl-4 border-l-2 border-emerald-300 dark:border-lime-300/50">
                   <span>{_('pre.breakdown.now')}</span>
-                  <span className="font-bold">99€</span>
+                  <span className="font-bold">20€</span>
                 </div>
                 <div className="flex justify-between items-center pl-4 border-l-2 border-emerald-300 dark:border-lime-300/50">
                   <span>{_('pre.breakdown.rest')}</span>
@@ -334,7 +473,9 @@ export function Home() {
                     className="w-full px-4 py-2 rounded-lg border border-slate-300 dark:border-white/10 bg-white dark:bg-slate-900/50 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-red dark:focus:ring-lime-300/50 focus:border-brand-red dark:focus:border-lime-300/50"
                   >
                     {careerIds.map((id, i) => (
-                      <option key={id} value={id}>{_(`career.${careerKeys[i]}`)}</option>
+                      <option key={id} value={id} disabled={!careerAvailable[i]}>
+                        {_(`career.${careerKeys[i]}`)} {!careerAvailable[i] ? '(Próximamente)' : ''}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -381,6 +522,24 @@ export function Home() {
                 )}
               </div>
             </form>
+          </div>
+        </section>
+
+        {/* Contact Section */}
+        <section className="border-t border-slate-200 dark:border-white/10 py-12 bg-white dark:bg-transparent">
+          <div className="mx-auto w-full max-w-xl px-4 sm:px-6 lg:px-8 text-center">
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-3">
+              {_('contact.title')}
+            </h3>
+            <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">
+              {_('contact.subtitle')}
+            </p>
+            <a
+              href="mailto:info@claw-university.com"
+              className="inline-flex items-center gap-2 text-brand-red dark:text-lime-300 hover:underline font-medium text-sm"
+            >
+              📧 info@claw-university.com
+            </a>
           </div>
         </section>
 
