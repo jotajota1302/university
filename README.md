@@ -1,92 +1,84 @@
 # OpenClaw University
 
-> **Especializa tu agente OpenClaw en 48h con carreras certificadas**
+Plataforma de carreras certificadas para agentes OpenClaw. Especializa tu instancia con skills curados del Skills Registry, obtén certificación oficial y mantén actualizaciones continuas.
 
-🎓 Carreras completas de skills curadas + Certificación oficial + Actualizaciones continuas
+## Estado actual
 
----
+**Landing de pre-reserva con Stripe** funcionando en producción.
 
-## 🚀 Nuevo Modelo: Carreras + Preventa de Matriculaciones
+- Landing con carreras, curriculum y formulario de reserva
+- Pago de depósito vía Stripe Checkout (Supabase Edge Functions)
+- i18n ES/EN, dark/light mode
+- Despliegue: Vercel (dashboard) + Supabase (funciones de pago)
 
-**University 2.0** transforma instancias OpenClaw en especialistas certificados mediante carreras completas.
-
-### ¿Qué es una Carrera?
-
-1. **8-12 skills curadas** de OpenSkills Registry
-2. **Conexión automática** entre tu instancia y OpenSkills
-3. **Certificación oficial** al completar
-4. **Actualizaciones** continuas de skills
-
-### Carreras Disponibles (MVP)
-
-- **Marketing Pro** (149€/mes) — 8 skills de SEO, contenido, CRO, ads
-- **Sales Accelerator** (149€/mes) — 8 skills de pipeline, prospección, scoring
-- **DevOps Engineer** (199€/mes) — 10 skills de CI/CD, observability, security
-
-Ver [CAREERS-MODEL.md](./CAREERS-MODEL.md) para detalles completos.
-
-### Plan inmediato (marzo 2026)
-
-- Lanzar **landing de preventa** para matriculaciones.
-- Vender plazas de cohorte fundadora mientras se terminan materias pendientes.
-- Entregar roadmap público por materias (estado: listo / en desarrollo / fecha estimada).
-- Convertir preventa en primera cohorte activa y usar feedback para cerrar contenido.
-
----
-
-## 📦 Monorepo Structure
+## Estructura
 
 ```
 university/
-├── api/               # Backend API (Fastify + Prisma + PostgreSQL)
-├── dashboard/         # Frontend Dashboard (React + Vite + Tailwind)
-├── CAREERS-MODEL.md   # Nuevo modelo de negocio (carreras)
-├── VISION-2026.md     # Vision anterior (taller/mecánico)
-└── README.md          # This file
+├── dashboard/              # React frontend (Vite + Tailwind)
+│   └── src/
+│       ├── pages/Home.tsx          # Landing + pre-reserva
+│       ├── components/LegalModal.tsx
+│       ├── store/lang.ts           # i18n ES/EN
+│       ├── store/theme.ts          # Dark/light mode
+│       ├── api/client.ts           # API client base
+│       ├── App.tsx                 # Router
+│       └── main.tsx                # Entry point
+├── supabase/               # Edge Functions
+│   ├── functions/
+│   │   ├── stripe-checkout/        # Crear sesión Stripe
+│   │   ├── stripe-webhook/         # Webhook de pagos
+│   │   └── _shared/               # Utils compartidos
+│   └── migrations/                 # Schema pre_orders
+├── docs/                   # Documentación
+└── PRODUCTION-SETUP.md     # Guía de producción Stripe
 ```
 
----
+## Desarrollo local
 
-## 🚀 Quick Start
-
-### API
-```bash
-cd api
-npm install
-npm run dev
-```
-
-### Dashboard
 ```bash
 cd dashboard
 npm install
 npm run dev
 ```
 
----
+### Variables de entorno
 
-## 🌐 Production
+El dashboard necesita en `.env` (o variables de Vercel):
 
-- **API:** https://openclaw-university-api.onrender.com
-- **Dashboard:** https://openclaw-university-dashboard.vercel.app
-- **Repo:** https://github.com/jotajota1302/university
+```
+VITE_API_URL=https://<tu-proyecto>.supabase.co/functions/v1
+VITE_SUPABASE_ANON_KEY=<anon-key>
+```
 
----
+Supabase Edge Functions necesitan (configuradas en Supabase dashboard):
 
-## 🛠️ Tech Stack
+```
+STRIPE_SECRET_KEY=sk_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+FRONTEND_URL=https://tu-dominio.com
+```
 
-**Backend:** Fastify + TypeScript + Prisma + PostgreSQL (Supabase) + Vitest  
+Ver `PRODUCTION-SETUP.md` para la guía completa.
+
+## Integración con Skills Registry
+
+Las carreras se componen de skills definidos en el Skills Registry. La composición, orden y estructura de cada carrera viene del registro — University no impone una estructura de bloques fija.
+
+La integración se hará mediante:
+- **Packs API** (`/v1/packs`) para modelar carreras como colecciones de skills
+- **SDK** `@openclaw/sdk` para consumir desde el frontend
+- Campo `source: "university"` para identificar skills universitarios
+
+## Roadmap
+
+- Area de usuario (progreso, certificaciones)
+- Integración con Skills Registry (Packs API)
+- Sistema de exámenes/evaluaciones
+- Más carreras (Sales Accelerator, DevOps Engineer)
+
+## Tech Stack
+
 **Frontend:** React + TypeScript + Vite + Tailwind + React Router
-
----
-
-## 📚 Documentation
-
-- [Careers Model (NEW)](./CAREERS-MODEL.md) — Modelo de carreras certificadas
-- [Vision 2026](./VISION-2026.md) — Vision anterior (taller/mecánico)
-- [API Documentation](./api/README.md)
-- [Dashboard Documentation](./dashboard/README.md)
-
----
-
-**🎓 University 2.0: De auditorías a especialización**
+**Pagos:** Stripe Checkout via Supabase Edge Functions
+**Base de datos:** Supabase (PostgreSQL)
