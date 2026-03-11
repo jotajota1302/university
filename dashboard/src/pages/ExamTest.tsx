@@ -2,11 +2,33 @@ import { useState } from 'react';
 
 const REGISTRY_URL = 'https://openclaw-skills-registry.onrender.com';
 
+// Defensive: handle both localized (string) and raw i18n ({es:..., en:...}) responses
+function safeString(value: unknown, lang: string): string {
+  if (typeof value === 'string') return value;
+  if (value && typeof value === 'object') {
+    const obj = value as Record<string, unknown>;
+    if (obj[lang] && typeof obj[lang] === 'string') return obj[lang] as string;
+    if (obj['es'] && typeof obj['es'] === 'string') return obj['es'] as string;
+  }
+  return String(value ?? '');
+}
+
+function safeOptions(value: unknown, lang: string): Record<string, string> {
+  if (!value || typeof value !== 'object') return {};
+  const obj = value as Record<string, unknown>;
+  // i18n format: {es: {A:..}, en: {A:..}}
+  if (obj[lang] && typeof obj[lang] === 'object') return obj[lang] as Record<string, string>;
+  if (obj['es'] && typeof obj['es'] === 'object') return obj['es'] as Record<string, string>;
+  // Already flat: {A: "...", B: "..."}
+  if (typeof Object.values(obj)[0] === 'string') return obj as Record<string, string>;
+  return {};
+}
+
 interface ExamQuestion {
   questionId: string;
   section: string;
-  question: string;
-  options: Record<string, string>;
+  question: string | Record<string, unknown>;
+  options: Record<string, unknown>;
   skillName: string;
 }
 
@@ -103,8 +125,8 @@ export function ExamTest() {
   function copyAllQuestions() {
     if (!exam) return;
     const text = exam.questions.map((q, i) => {
-      const opts = Object.entries(q.options).map(([k, v]) => `  ${k}) ${v}`).join('\n');
-      return `${i + 1}. [${q.questionId}] ${q.question}\n${opts}`;
+      const opts = Object.entries(safeOptions(q.options, lang)).map(([k, v]) => `  ${k}) ${v}`).join('\n');
+      return `${i + 1}. [${q.questionId}] ${safeString(q.question, lang)}\n${opts}`;
     }).join('\n\n');
     navigator.clipboard.writeText(text);
     setCopied(true);
@@ -116,24 +138,24 @@ export function ExamTest() {
     return (
       <div style={styles.container}>
         <h1 style={styles.title}>Exam Test Page</h1>
-        <p style={styles.subtitle}>Pagina temporal para probar el sistema de examenes</p>
+        <p style={styles.subtitle}>Página temporal para probar el sistema de exámenes</p>
 
         <div style={styles.card}>
           <h2>Marketing Pro — Foundation</h2>
-          <p>50 preguntas disponibles (25 teoria + 25 casos)</p>
+          <p>50 preguntas disponibles (25 teoría + 25 casos)</p>
 
           <label style={styles.label}>
             Idioma / Language:
             <select value={lang} onChange={(e) => setLang(e.target.value as Lang)} style={styles.select}>
-              <option value="es">Espanol</option>
+              <option value="es">Español</option>
               <option value="en">English</option>
             </select>
           </label>
 
           <label style={styles.label}>
-            Numero de preguntas:
+            Número de preguntas:
             <select value={limit} onChange={(e) => setLimit(Number(e.target.value))} style={styles.select}>
-              <option value={5}>5 (rapido)</option>
+              <option value={5}>5 (rápido)</option>
               <option value={10}>10</option>
               <option value={20}>20</option>
               <option value={50}>50 (completo)</option>
@@ -174,12 +196,12 @@ export function ExamTest() {
           <div key={q.questionId} style={{ ...styles.card, borderLeftColor: answers[q.questionId] ? '#2563eb' : '#e5e7eb', borderLeftWidth: 3 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
               <span style={styles.questionNum}>#{i + 1}</span>
-              <span style={styles.badge}>{q.section === 'A' ? 'Teoria' : 'Caso'}</span>
+              <span style={styles.badge}>{q.section === 'A' ? 'Teoría' : 'Caso'}</span>
               <span style={{ fontSize: 11, color: '#999' }}>{q.skillName}</span>
             </div>
-            <p style={styles.questionText}>{q.question}</p>
+            <p style={styles.questionText}>{safeString(q.question, lang)}</p>
             <div style={styles.options}>
-              {Object.entries(q.options).map(([key, text]) => (
+              {Object.entries(safeOptions(q.options, lang)).map(([key, text]) => (
                 <button
                   key={key}
                   onClick={() => selectAnswer(q.questionId, key)}
