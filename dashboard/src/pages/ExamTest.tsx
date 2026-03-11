@@ -201,19 +201,23 @@ export function ExamTest() {
             </div>
             <p style={styles.questionText}>{safeString(q.question, lang)}</p>
             <div style={styles.options}>
-              {Object.entries(safeOptions(q.options, lang)).map(([key, text]) => (
-                <button
-                  key={key}
-                  onClick={() => selectAnswer(q.questionId, key)}
-                  style={{
-                    ...styles.option,
-                    ...(answers[q.questionId] === key ? styles.optionSelected : {}),
-                  }}
-                >
-                  <span style={styles.optionKey}>{key}</span>
-                  <span>{text}</span>
-                </button>
-              ))}
+              {Object.entries(safeOptions(q.options, lang)).map(([key, text]) => {
+                const isSelected = answers[q.questionId] === key;
+                return (
+                  <button
+                    key={key}
+                    onClick={() => selectAnswer(q.questionId, key)}
+                    style={{
+                      ...styles.option,
+                      borderColor: isSelected ? '#2563eb' : '#e5e7eb',
+                      background: isSelected ? '#eff6ff' : '#fafafa',
+                    }}
+                  >
+                    <span style={styles.optionKey}>{key}</span>
+                    <span>{text}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         ))}
@@ -324,8 +328,7 @@ const styles: Record<string, React.CSSProperties> = {
   questionNum: { fontWeight: 'bold', fontSize: 14, color: '#2563eb' },
   questionText: { fontSize: 16, lineHeight: 1.5, marginBottom: 12 },
   options: { display: 'flex', flexDirection: 'column', gap: 8 },
-  option: { display: 'flex', alignItems: 'flex-start', gap: 10, padding: '10px 14px', border: '2px solid #e5e7eb', borderRadius: 8, background: '#fafafa', cursor: 'pointer', textAlign: 'left' as const, fontSize: 14, transition: 'all 0.15s' },
-  optionSelected: { borderColor: '#2563eb', background: '#eff6ff' },
+  option: { display: 'flex', alignItems: 'flex-start', gap: 10, padding: '10px 14px', border: '2px solid #e5e7eb', borderRadius: 8, background: '#fafafa', cursor: 'pointer', textAlign: 'left' as const, fontSize: 14 },
   optionKey: { fontWeight: 'bold', color: '#2563eb', minWidth: 18 },
   skillRow: { display: 'flex', alignItems: 'center', gap: 12, padding: '8px 0', borderBottom: '1px solid #f3f4f6' },
   skillName: { flex: 1, fontSize: 13 },
