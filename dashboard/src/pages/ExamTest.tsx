@@ -72,6 +72,7 @@ export function ExamTest() {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [results, setResults] = useState<GradeResult | null>(null);
   const [limit, setLimit] = useState(50);
+  const [blockSlug, setBlockSlug] = useState<'foundation' | 'digital-essentials'>('digital-essentials');
   const [lang, setLang] = useState<Lang>('es');
   const [copied, setCopied] = useState(false);
   const [pasteText, setPasteText] = useState('');
@@ -83,7 +84,7 @@ export function ExamTest() {
     setError('');
     try {
       const res = await fetch(
-        `${REGISTRY_URL}/v1/exams/marketing-pro/foundation?limit=${limit}&lang=${lang}`
+        `${REGISTRY_URL}/v1/exams/marketing-pro/${blockSlug}?limit=${limit}&lang=${lang}`
       );
       if (!res.ok) throw new Error(`Error ${res.status}`);
       const data: ExamStart = await res.json();
@@ -168,8 +169,16 @@ export function ExamTest() {
         <p style={styles.subtitle}>Página temporal para probar el sistema de exámenes</p>
 
         <div style={styles.card}>
-          <h2>Marketing Pro — Foundation</h2>
-          <p>50 preguntas disponibles (25 teoría + 25 casos)</p>
+          <h2>Marketing Pro — Exam Lab</h2>
+          <p>Prueba Foundation o Digital Essentials</p>
+
+          <label style={styles.label}>
+            Bloque:
+            <select value={blockSlug} onChange={(e) => setBlockSlug(e.target.value as 'foundation' | 'digital-essentials')} style={styles.select}>
+              <option value="foundation">Foundation</option>
+              <option value="digital-essentials">Digital Essentials</option>
+            </select>
+          </label>
 
           <label style={styles.label}>
             Idioma / Language:

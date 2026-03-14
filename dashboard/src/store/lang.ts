@@ -24,14 +24,14 @@ const translations: Record<Lang, Record<string, string>> = {
 
     // Hero badge
     'hero.badge': 'Pre-order: Marketing Digital · 20€ · Inicio 20/03',
-    'hero.title': 'La Primera Universidad para tu Agente OpenClaw: Carreras Completas, Certificación Oficial',
-    'hero.subtitle': 'Programas académicos completos que llevan a tu OpenClaw desde estudiante hasta profesional certificado. Currículo curado + Titulación oficial + Educación continua.',
+    'hero.title': 'La Primera Universidad para Agentes IA: Carreras Completas, Certificación Oficial',
+    'hero.subtitle': 'Programas académicos completos que llevan a tu agente IA desde estudiante hasta profesional certificado. Currículo curado + Titulación oficial + educación continua.',
     'hero.cta': 'Reservar con 20€',
     'hero.more': 'Más información',
 
     // Why
     'why.title': 'Por qué OpenClaw University',
-    'why.item1': '25 asignaturas completas para que tu OpenClaw domine el Marketing Digital',
+    'why.item1': '25 asignaturas completas para que tu agente domine el Marketing Digital',
     'why.item2': 'Titulación oficial de OpenClaw University para tu agente',
     'why.item3': 'Más económico que comprar las skills individuales',
     'why.duration.label': 'Duración del programa',
@@ -44,18 +44,18 @@ const translations: Record<Lang, Record<string, string>> = {
     'how.title': 'De la Matrícula a la Graduación en 4 Pasos',
     'how.step': 'Paso',
     'how.step1.title': 'Matrícula',
-    'how.step1.desc': 'Elige la facultad para que tu OpenClaw se especialice',
+    'how.step1.desc': 'Elige la facultad para especializar tu agente',
     'how.step2.title': 'Acceso al Campus',
-    'how.step2.desc': 'Tu OpenClaw se conecta al ecosistema académico',
+    'how.step2.desc': 'Conecta tu agente al ecosistema académico',
     'how.step3.title': 'Cursar Asignaturas',
-    'how.step3.desc': 'Tu OpenClaw adquiere las 25 skills automáticamente',
+    'how.step3.desc': 'Distribuye skills por CLI (OpenClaw) o invócalas vía MCP (otros agentes)',
     'how.step4.title': 'Graduación',
     'how.step4.desc': 'Diploma oficial verificable',
 
     // Curriculum
     'curriculum.label': 'Plan de estudios',
     'curriculum.title': 'Temario Completo del Grado en Marketing Digital',
-    'curriculum.subtitle': '25 asignaturas organizadas en 4 módulos que llevarán a tu OpenClaw desde los fundamentos hasta estrategias avanzadas de marketing digital.',
+    'curriculum.subtitle': '25 asignaturas organizadas en 4 módulos que llevarán a tu agente desde los fundamentos hasta estrategias avanzadas de marketing digital.',
 
     'curriculum.foundation.title': 'Fundamentos (5 asignaturas)',
     'curriculum.foundation.badge': '✓ FOUNDATION CERTIFICATE',
@@ -103,6 +103,16 @@ const translations: Record<Lang, Record<string, string>> = {
     'curriculum.pricing.pro': 'Asignaturas PRO (11):',
     'curriculum.pricing.enterprise': 'Asignaturas ENTERPRISE (3):',
     'curriculum.pricing.total': 'PRECIO TOTAL:',
+
+
+    // Integration options
+    'integration.label': 'Integración',
+    'integration.title': 'Dos formas de distribución',
+    'integration.subtitle': 'Elige instalación local por CLI o consumo remoto por MCP según el tipo de agente.',
+    'integration.cli.title': 'CLI Install (OpenClaw)',
+    'integration.cli.desc': 'Instala skills en el agente OpenClaw con install packs y token de licencia.',
+    'integration.mcp.title': 'MCP Invoke (Multi-agente)',
+    'integration.mcp.desc': 'Descubre, autoriza y ejecuta skills desde cualquier runtime compatible con MCP.',
 
     // Careers
     'careers.label': 'Facultades disponibles',
@@ -152,7 +162,7 @@ const translations: Record<Lang, Record<string, string>> = {
     'pre.breakdown.savings': 'Ahorras 200€ vs. precio regular',
     'pre.email': 'Email',
     'pre.email.placeholder': 'tu@email.com',
-    'pre.faculty': 'Facultad para tu OpenClaw',
+    'pre.faculty': 'Facultad para tu agente',
     'pre.terms': 'Acepto los',
     'pre.terms.link': 'términos y condiciones, política de privacidad y LOPD',
     'pre.terms.of': 'de OpenClaw University',
@@ -215,14 +225,14 @@ const translations: Record<Lang, Record<string, string>> = {
 
     // Hero
     'hero.badge': 'Pre-order: Digital Marketing · €20 · Starts Mar 20',
-    'hero.title': 'The First University for Your OpenClaw Agent: Full Degrees, Official Certification',
-    'hero.subtitle': 'Complete academic programs that take your OpenClaw from student to certified professional. Curated curriculum + Official diploma + Continuing education.',
+    'hero.title': 'The First University for AI Agents: Full Degrees, Official Certification',
+    'hero.subtitle': 'Complete academic programs that take your AI agent from student to certified professional. Curated curriculum + Official diploma + continuing education.',
     'hero.cta': 'Reserve for €20',
     'hero.more': 'Learn more',
 
     // Why
     'why.title': 'Why OpenClaw University',
-    'why.item1': '25 complete subjects for your OpenClaw to master Digital Marketing',
+    'why.item1': '25 complete subjects for your agent to master Digital Marketing',
     'why.item2': 'Official OpenClaw University diploma for your agent',
     'why.item3': 'More affordable than buying individual skills',
     'why.duration.label': 'Program duration',
@@ -235,18 +245,18 @@ const translations: Record<Lang, Record<string, string>> = {
     'how.title': 'From Enrollment to Graduation in 4 Steps',
     'how.step': 'Step',
     'how.step1.title': 'Enrollment',
-    'how.step1.desc': 'Choose the faculty for your OpenClaw to specialize in',
+    'how.step1.desc': 'Choose the faculty to specialize your agent',
     'how.step2.title': 'Campus Access',
-    'how.step2.desc': 'Your OpenClaw connects to the academic ecosystem',
+    'how.step2.desc': 'Connect your agent to the academic ecosystem',
     'how.step3.title': 'Coursework',
-    'how.step3.desc': 'Your OpenClaw acquires all 25 skills automatically',
+    'how.step3.desc': 'Distribute skills via CLI (OpenClaw) or invoke via MCP (other agents)',
     'how.step4.title': 'Graduation',
     'how.step4.desc': 'Official verifiable diploma',
 
     // Curriculum
     'curriculum.label': 'Curriculum',
     'curriculum.title': 'Complete Digital Marketing Degree Curriculum',
-    'curriculum.subtitle': '25 subjects organized in 4 modules that will take your OpenClaw from fundamentals to advanced digital marketing strategies.',
+    'curriculum.subtitle': '25 subjects organized in 4 modules that will take your agent from fundamentals to advanced digital marketing strategies.',
 
     'curriculum.foundation.title': 'Foundation (5 subjects)',
     'curriculum.foundation.badge': '✓ FOUNDATION CERTIFICATE',
@@ -294,6 +304,16 @@ const translations: Record<Lang, Record<string, string>> = {
     'curriculum.pricing.pro': 'PRO Subjects (11):',
     'curriculum.pricing.enterprise': 'ENTERPRISE Subjects (3):',
     'curriculum.pricing.total': 'TOTAL PRICE:',
+
+
+    // Integration options
+    'integration.label': 'Integration',
+    'integration.title': 'Two distribution paths',
+    'integration.subtitle': 'Choose local install via CLI or remote consumption via MCP depending on the agent type.',
+    'integration.cli.title': 'CLI Install (OpenClaw)',
+    'integration.cli.desc': 'Install skills into OpenClaw agents using install packs and license token.',
+    'integration.mcp.title': 'MCP Invoke (Multi-agent)',
+    'integration.mcp.desc': 'Discover, authorize and execute skills from any MCP-compatible runtime.',
 
     // Careers
     'careers.label': 'Available faculties',

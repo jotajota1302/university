@@ -191,6 +191,30 @@ export function Home() {
           </div>
         </section>
 
+        {/* Integration options */}
+        <section className="border-t border-slate-200 dark:border-white/10 py-16 bg-slate-50 dark:bg-transparent">
+          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <span className="text-xs uppercase tracking-[0.14em] text-indigo-600 dark:text-indigo-300">{_('integration.label')}</span>
+              <h2 className="mt-4 text-3xl font-semibold text-slate-900 dark:text-white">{_('integration.title')}</h2>
+              <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                {_('integration.subtitle')}
+              </p>
+            </div>
+
+            <div className="mt-8 grid gap-4 md:grid-cols-2">
+              <article className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-6">
+                <h3 className="font-bold text-slate-900 dark:text-white">{_('integration.cli.title')}</h3>
+                <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{_('integration.cli.desc')}</p>
+              </article>
+              <article className="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-6">
+                <h3 className="font-bold text-slate-900 dark:text-white">{_('integration.mcp.title')}</h3>
+                <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{_('integration.mcp.desc')}</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
         {/* Careers */}
         <section id="careers" className="border-t border-slate-200 dark:border-white/10 py-16">
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
