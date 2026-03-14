@@ -6,10 +6,10 @@ import { LegalModal } from '../components/LegalModal';
 const careerIds = ['marketing-pro', 'sales-accelerator', 'devops-engineer'] as const;
 const careerKeys = ['marketing', 'sales', 'devops'] as const;
 const careerIcons = ['🎯', '💼', '🛠️'];
-const careerPrices = ['199,86€', '', ''];
-const careerRegularPrices = ['399,86€', '', ''];
+const careerPrices = ['152€', '', ''];
+const careerRegularPrices = ['190€', '', ''];
 const careerDeposits = ['20€', '', ''];
-const careerRemaining = ['179,86€', '', ''];
+const careerRemaining = ['132€', '', ''];
 const careerSkills = [25, 12, 14];
 const careerAvailable = [true, false, false];
 const careerStartDate = ['20 marzo 2026', '', ''];
@@ -422,15 +422,15 @@ export function Home() {
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-slate-600 dark:text-slate-300">{_('curriculum.pricing.pro')}</span>
-                      <span className="font-semibold text-slate-900 dark:text-slate-100">11 × 9,99€ = 109,89€</span>
+                      <span className="font-semibold text-slate-900 dark:text-slate-100">13 × 10€ = 130€</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-slate-600 dark:text-slate-300">{_('curriculum.pricing.enterprise')}</span>
-                      <span className="font-semibold text-slate-900 dark:text-slate-100">3 × 29,99€ = 89,97€</span>
+                      <span className="font-semibold text-slate-900 dark:text-slate-100">5 × 30€ + 6 × 20€ = 270€</span>
                     </div>
                     <div className="pt-3 mt-3 border-t border-brand-red/20 dark:border-lime-300/20 flex justify-between items-center">
                       <span className="font-bold text-brand-red dark:text-lime-300">{_('curriculum.pricing.total')}</span>
-                      <span className="text-2xl font-bold text-brand-red dark:text-lime-300">199,86€</span>
+                      <span className="text-2xl font-bold text-brand-red dark:text-lime-300">190€</span>
                     </div>
                   </div>
                 </div>
@@ -459,7 +459,7 @@ export function Home() {
                 <div className="font-semibold">{_('pre.breakdown.career')}</div>
                 <div className="flex justify-between items-center pl-4 border-l-2 border-emerald-300 dark:border-lime-300/50">
                   <span>{_('pre.breakdown.full')}</span>
-                  <span className="font-bold">199,86€ <span className="text-xs line-through opacity-60">399,86€</span></span>
+                  <span className="font-bold">152€ <span className="text-xs line-through opacity-60">190€</span></span>
                 </div>
                 <div className="flex justify-between items-center pl-4 border-l-2 border-emerald-300 dark:border-lime-300/50">
                   <span>{_('pre.breakdown.now')}</span>

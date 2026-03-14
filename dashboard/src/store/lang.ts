@@ -100,8 +100,8 @@ const translations: Record<Lang, Record<string, string>> = {
 
     'curriculum.pricing.title': 'Desglose de Precio',
     'curriculum.pricing.free': 'Asignaturas FREE (11):',
-    'curriculum.pricing.pro': 'Asignaturas PRO (11):',
-    'curriculum.pricing.enterprise': 'Asignaturas ENTERPRISE (3):',
+    'curriculum.pricing.pro': 'Asignaturas PRO (13):',
+    'curriculum.pricing.enterprise': 'Asignaturas ENTERPRISE (11):',
     'curriculum.pricing.total': 'PRECIO TOTAL:',
 
 
@@ -151,15 +151,15 @@ const translations: Record<Lang, Record<string, string>> = {
     // Pre-registro
     'pre.label': 'Siguiente paso',
     'pre.title': 'Reserva tu Plaza con 20€',
-    'pre.subtitle': 'Asegura tu precio de primera promoción. Ahorra {save} y sé parte de la historia de OpenClaw University.',
-    'pre.save': '200€',
+    'pre.subtitle': 'Consigue el precio de carrera completa. Ahorra {save} frente al total de skills individuales y activa tu agente desde el día 1.',
+    'pre.save': '38€',
     'pre.breakdown.title': 'Desglose de tu matrícula',
     'pre.breakdown.career': 'Grado en Marketing Digital',
-    'pre.breakdown.full': 'Matrícula completa:',
+    'pre.breakdown.full': 'Carrera completa (descuento -20%):',
     'pre.breakdown.now': 'Adelanto hoy:',
     'pre.breakdown.rest': 'Resto antes de empezar la carrera:',
-    'pre.breakdown.rest.date': '179,86€',
-    'pre.breakdown.savings': 'Ahorras 200€ vs. precio regular',
+    'pre.breakdown.rest.date': '132€',
+    'pre.breakdown.savings': 'Ahorras 38€ vs. comprar skills sueltas',
     'pre.email': 'Email',
     'pre.email.placeholder': 'tu@email.com',
     'pre.faculty': 'Facultad para tu agente',
@@ -301,8 +301,8 @@ const translations: Record<Lang, Record<string, string>> = {
 
     'curriculum.pricing.title': 'Pricing Breakdown',
     'curriculum.pricing.free': 'FREE Subjects (11):',
-    'curriculum.pricing.pro': 'PRO Subjects (11):',
-    'curriculum.pricing.enterprise': 'ENTERPRISE Subjects (3):',
+    'curriculum.pricing.pro': 'PRO Subjects (13):',
+    'curriculum.pricing.enterprise': 'ENTERPRISE Subjects (11):',
     'curriculum.pricing.total': 'TOTAL PRICE:',
 
 
@@ -352,15 +352,15 @@ const translations: Record<Lang, Record<string, string>> = {
     // Pre-registro
     'pre.label': 'Next step',
     'pre.title': 'Reserve Your Spot for €20',
-    'pre.subtitle': 'Lock in the first-class price. Save {save} and be part of OpenClaw University history.',
-    'pre.save': '€200',
+    'pre.subtitle': 'Get the full-career price. Save {save} vs. buying individual skills and activate your agent from day one.',
+    'pre.save': '€38',
     'pre.breakdown.title': 'Enrollment breakdown',
     'pre.breakdown.career': 'Digital Marketing Degree',
-    'pre.breakdown.full': 'Full enrollment:',
+    'pre.breakdown.full': 'Full career (20% discount):',
     'pre.breakdown.now': 'Deposit today:',
     'pre.breakdown.rest': 'Balance before starting the degree:',
-    'pre.breakdown.rest.date': '€179.86',
-    'pre.breakdown.savings': 'You save €200 vs. regular price',
+    'pre.breakdown.rest.date': '€132',
+    'pre.breakdown.savings': 'You save €38 vs. individual skills',
     'pre.email': 'Email',
     'pre.email.placeholder': 'you@email.com',
     'pre.faculty': 'Faculty of interest',
